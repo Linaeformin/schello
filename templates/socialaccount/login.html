@@ -1,0 +1,43 @@
+<!-- templates/socialaccount/login.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>카카오 로그인</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 100px;
+            background-color: #fffbe7;
+        }
+        .login-box {
+            display: inline-block;
+            padding: 40px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .button {
+            padding: 12px 24px;
+            background: #FEE500;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>😎 카카오 로그인</h1>
+        <p>카카오 계정으로 로그인하시겠습니까?</p>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button">카카오로 계속하기</button>
+        </form>
+    </div>
+</body>
+</html>
