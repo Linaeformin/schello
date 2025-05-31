@@ -20,4 +20,4 @@ def home(request):
     }
 
     # 'accounts/home.html' 템플릿을 렌더링하면서 context를 넘겨줌
-    return render(request, 'accounts/home.html', context)
+    return render(request, 'home.html', context)
