@@ -19,5 +19,5 @@ def home(request):
         'extra_data': extra_data,
     }
 
-    # 'accounts/home.html' 템플릿을 렌더링하면서 context를 넘겨줌
-    return render(request, 'home.html', context)
+    # 'accounts/base.html' 템플릿을 렌더링하면서 context를 넘겨줌
+    return render(request, 'base.html', context)
