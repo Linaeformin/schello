@@ -1,0 +1,34 @@
+    .login-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 341px 21px 94px 21px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .logo-img {
+        width: 155px;
+        height: 127px;
+        margin-bottom: 204px;
+    }
+
+    .kakao-btn {
+        width: 100%;
+        height: 45px;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .kakao-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }

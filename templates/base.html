@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="ko">
+  <head>
     <title>홈</title>
-</head>
-<body>
+    <link rel="stylesheet" href="/static/main.css" />
+  </head>
+  <body>
     <h1>환영합니다, {{ user.username }}!</h1>
 
     <h2>추가 정보 (카카오에서 받은 데이터)</h2>
     <pre>
         {{ extra_data|safe }}
     </pre>
-</body>
+  </body>
+  <div id="root">
+    <div class="app-wrapper"></div>
+  </div>
 </html>
-
-
-
