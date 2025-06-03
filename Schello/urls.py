@@ -24,4 +24,5 @@ urlpatterns = [
 
     # 홈 화면
     path('', home, name='home'),
+    path('accounts/', include('accounts.urls')),
 ]
