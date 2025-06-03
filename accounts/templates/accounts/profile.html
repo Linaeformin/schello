@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>로그아웃 테스트</title>
+</head>
+<body>
+  <h2>로그아웃 테스트 페이지</h2>
+  <form id="logoutForm" method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  <button type="button" onclick="confirmLogout()">로그아웃</button>
+</form>
+
+<script>
+  function confirmLogout() {
+    console.log("버튼 클릭됨");
+    const form = document.getElementById('logoutForm');
+    const token = form.querySelector('input[name="csrfmiddlewaretoken"]');
+    console.log("CSRF Token:", token ? token.value : '없음');
+
+    if (confirm("정말 로그아웃하시겠습니까?")) {
+      form.submit();
+    }
+  }
+</script>
+
+</body>
+</html>
