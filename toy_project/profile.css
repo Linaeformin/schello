@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
+
+*
+body{
+    display:flex;
+    justify-content: center;
+    font-family: "Inter";
+}
+.root{ 
+    width:375px;
+    height:812px;
+    background-color: #ffefef;
+    display: flex;
+    justify-content: center;
+    position:relative;
+}
+/*브라우저 기본 컬러와 구분하기 위해 일단 배경색을 다른 색으로 지정함*/
+header{
+    width:375px;
+    height:44px; 
+    padding: 10px 26px;
+    gap: 4px;
+    position: absolute;
+    top:54px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+.material-icons{
+    width:16px;
+    height: 16px;
+}
+.content{
+    width:375px;
+    height:429px;
+    position: absolute;
+    top:98px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap:100px;
+
+}
+.profile-content{
+    display:flex;
+    gap:24px;
+    justify-content: center;
+    flex-direction: column;
+    width:153px;
+    height:225px;
+}
+.profile-img{
+    display: flex;
+    justify-content: center;
+}
+#profileImage{
+    width:150px;
+    height:150px;
+    border-radius: 50%;
+}
+.user-info{
+    display:flex;
+    flex-direction: column;
+    align-items: center; 
+    gap:12px;
+    width:153px;
+    height: 51px;
+}
+.user-name{
+    font-family: 'Poppins';
+    font-size: 20px;
+    font-weight: 600px;
+    line-height: 100%;
+    color:#000000;
+    margin: 0px;
+}
+.user-email{
+    font-family: 'Poppins';
+    font-size: 12px;
+    font-weight: 400px;
+    line-height: 160%;
+    color:#828282;
+    margin-top:0px;
+
+}
+.button-box{
+    width:159px;
+    height:104px;
+    display:flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 24px;
+}
+#editBtn{
+    width:159px;
+    height:40px;
+    border-radius: 8px;
+    border: 1px solid #006FFD;
+    background-color:  #ffff;
+    padding: 8px 16px;
+    color:#006FFD;
+    font-weight: 400px;
+    font-size:14px;
+
+}
+#logoutBtn{
+    width:159px;
+    height:40px;
+    border-radius: 8px;
+    border: 1px solid #006FFD; 
+    background-color:  #006FFD;
+    padding: 8px 16px;
+    color:#ffffff;
+    font-weight: 400px;
+    font-size:14px;
+
+}
+
+/*모달창 css*/
+
+.modal-overlay {
+    position: absolute;
+    top: -98px;
+    left: 0;
+    width: 375px;
+    height: 812px;
+    background-color: rgba(0, 0, 0, 0.1);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+.modal-box {
+    width:240px;
+    height:120px;
+    background-color: #ffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    border:1px solid #E6EAF2; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content{
+    width:196px;
+    height:80px;
+    display:flex;
+    gap:10px;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.modal-text {
+    position: absolute;
+    top:0px;
+    width:196px;
+    font-size: 18px;
+    font-weight: 400px;
+    color: #000000;
+    text-align: center;
+    line-height: 100%;
+    border:none;
+    margin:0px;
+}
+
+.modal-buttons {
+    position: absolute;
+    top:46px;
+    display: flex;
+    gap:10px;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+.modal-cancel {
+    height: 34px;
+    width:74px;
+    border-radius: 10px;
+    border: 1px solid #E6EAF2;
+    background-color: #ffffff;
+    color: #707070;
+    font-size:16px;
+    font-weight: 600;
+    line-height: 14px;
+    cursor: pointer;
+}
+
+.modal-confirm {
+    width:99px;
+    height: 34px;
+    background-color: #006FFD;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size:16px;
+    font-weight: 600;
+    line-height: 14px;
+    cursor: pointer;
+}
+
+/*여기까지가 모달창*/
+
+.back-btn{
+    border:none;
+    background: none;
+    padding:0;
+    cursor:pointer;
+}
