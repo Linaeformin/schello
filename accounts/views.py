@@ -21,3 +21,7 @@ def home(request):
 
     # 'accounts/base.html' 템플릿을 렌더링하면서 context를 넘겨줌
     return render(request, 'base.html', context)
+
+# 로그아웃 테스트 코드
+def logout_test_view(request):
+    return render(request, 'accounts/profile.html')

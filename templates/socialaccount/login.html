@@ -1,43 +1,33 @@
-<!-- templates/socialaccount/login.html -->
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>카카오 로그인</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-            margin-top: 100px;
-            background-color: #fffbe7;
-        }
-        .login-box {
-            display: inline-block;
-            padding: 40px;
-            border-radius: 10px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .button {
-            padding: 12px 24px;
-            background: #FEE500;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <div class="login-box">
-        <h1>😎 카카오 로그인</h1>
-        <p>카카오 계정으로 로그인하시겠습니까?</p>
-        <form method="post" action="">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="button">카카오로 계속하기</button>
-        </form>
+<html lang="en">
+{% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로그인 페이지</title>
+
+    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="/static/socialaccount/login.css" />
+
+  </head>
+  <body>
+    <div id="root">
+      <div class="app-wrapper">
+        <div class="login-container">
+          <img
+            src="/static/socialaccount/logo_2.svg"
+            alt="Sche:llo 로고"
+            class="logo-img"
+          />
+            <form method="post" actions="">
+                {% csrf_token %}
+                {{ form.as_p }}
+              <button class="kakao-btn">
+                <img src="/static/socialaccount/kakao_login.png" alt="카카오 로그인" />
+              </button>
+            </form>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

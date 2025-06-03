@@ -29,4 +29,6 @@ urlpatterns = [
     # 일정 추가 화면
     path('schedule_add/', schedule_add),
     # http://localhost:8000/schedule_add/ 로 접속하면 schedule_add.html 띄움
+
+    path('accounts/', include('accounts.urls')),
 ]
