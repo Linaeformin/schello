@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from accounts.views import home
-from schedules.views import schedule_add
+from schedules.views import add_todo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,8 +27,7 @@ urlpatterns = [
     path('', home, name='home'),
 
     # 일정 추가 화면
-    path('schedule_add/', schedule_add),
-    # http://localhost:8000/schedule_add/ 로 접속하면 schedule_add.html 띄움
+    path('add_todo/', add_todo),
 
     path('accounts/', include('accounts.urls')),
 ]

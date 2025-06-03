@@ -1,6 +1,6 @@
 from django.urls import path
-from schedules.views import schedule_add
+from schedules.views import add_todo
 
 urlpatterns = [
-    path("schedule_add", schedule_add),
+    path("add_todo/", add_todo),
 ]
