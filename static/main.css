@@ -1,6 +1,9 @@
 /*공통 스타일*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 * {
     box-sizing: border-box;
+    font-family: "Inter";
 }
 
 :root {
@@ -8,8 +11,11 @@
     --text-color: #333;
     --boder-color: #E8ECF4;
     --gray-80: #292C33;
+    --gray-50: #8F9BB3;
+    --gray-30: #E6EAF2;
     --kakao-yellow: #FFE600;
     --background-color: #FFF;
+    --blue-40: #B4DBFF;
 }
 
 body {
