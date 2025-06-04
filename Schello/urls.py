@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from accounts.views import home
+from schedules.views import add_todo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,5 +25,9 @@ urlpatterns = [
 
     # 홈 화면
     path('', home, name='home'),
+
+    # 일정 추가 화면
+    path('add_todo/', add_todo),
+
     path('accounts/', include('accounts.urls')),
 ]
