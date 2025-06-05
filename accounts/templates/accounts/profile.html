@@ -69,23 +69,5 @@
     </div>
 </div>
     <script type="module" src="/accounts/static/accounts/profile.js"></script>
-
-    <script>
-      window.addEventListener("DOMContentLoaded", async () => {
-        const navRes = await fetch("/templates/nav-bar.html");
-        const navHtml = await navRes.text();
-        document.body.insertAdjacentHTML("beforeend", navHtml);
-
-        const sheetRes = await fetch("/schedules/templates/schedules/add-todo-sheet.html");
-        const sheetHtml = await sheetRes.text();
-        document.body.insertAdjacentHTML("beforeend", sheetHtml);
-
-        // 바텀시트 이벤트 등록 (공통 모듈 사용)
-        import("/static/bottomSheetHandler.js").then((module) => {
-          module.setupBottomSheetEvents();
-        });
-      });
-    </script>
-    f
   </body>
 </html>

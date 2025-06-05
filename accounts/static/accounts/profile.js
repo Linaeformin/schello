@@ -60,23 +60,18 @@ document.getElementById('userEmail').textContent = userEmail;
 
 // 공통 UI(nav-bar, add-todo-sheet) 불러오기---------------------
 window.addEventListener("DOMContentLoaded", async () => {
+  // nav-bar 삽입
   const navRes = await fetch("/templates/nav-bar.html");
   const navHtml = await navRes.text();
-  document.body.insertAdjacentHTML("beforeend", navHtml);
+  document.querySelector(".profile-container").insertAdjacentHTML("beforeend", navHtml);
 
+  // 일정추가 바텀시트 삽입
   const sheetRes = await fetch("/schedules/templates/schedules/add-todo-sheet.html");
   const sheetHtml = await sheetRes.text();
-  document.body.insertAdjacentHTML("beforeend", sheetHtml);
+  document.querySelector(".profile-container").insertAdjacentHTML("beforeend", sheetHtml);
 
+  // 바텀시트 이벤트 핸들러 등록
   setupBottomSheetEvents();
-});
-
-// 일정 추가 바텀시트 열기
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest(".nav-item");
-  if (btn) {
-    openBottomSheet();
-  }
 });
 
 //하단 nav-bar에서 홈화면/프로필 페이지 마다 아이콘 색 변경을 위함
