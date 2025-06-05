@@ -1,11 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=375, initial-scale=1.0" />
     <title>홈 - Sche:llo</title>
-    <link rel="stylesheet" href="/static/main.css" />
-    <link rel="stylesheet" href="/home/static/home/home.css" />
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
+    <link rel="stylesheet" href="{% static 'home.css' %}" />
   </head>
   <body>
     <div id="root">
@@ -32,21 +33,21 @@
           <nav class="bottom-nav">
             <button class="nav-item">
               <img
-                src="/home/static/images/home.png"
+                src="{% static 'images/home.png' %}"
                 alt="홈 버튼"
                 class="home-button"
               />
             </button>
             <button class="nav-item">
               <img
-                src="/home/static/images/plus-circle.svg"
+                src="{% static 'images/plus-circle.svg' %}"
                 alt="일정추가 버튼"
                 class="plus-circle"
               />
             </button>
             <button class="nav-item">
               <img
-                src="/home/static/images/profile.png"
+                src="{% static 'images/profile.png' %}"
                 alt="프로필 버튼"
                 class="home-button"
               />
@@ -65,6 +66,6 @@
         </div>
       </div>
     </div>
-    <script src="/home/static/home.js"></script>
+    <script src="{% static 'home.js' %}"></script>
   </body>
 </html>
