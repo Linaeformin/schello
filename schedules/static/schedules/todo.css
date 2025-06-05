@@ -24,12 +24,12 @@ body {
     align-items: center;
     box-shadow: 0px -4px 5px 0px #00000026;;
 
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
+    scrollbar-width: none; 
+    -ms-overflow-style: none; 
 }
 
 .root::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none; 
 }
 .add-todo-content{
   width:319px;
@@ -71,7 +71,7 @@ body {
     margin: 0px;
 }
 
-/* form box */
+/* 폼박스 */
 .todo-form {
     display: flex;
     flex-direction: column;
@@ -79,7 +79,7 @@ body {
     width:319px;
 }
 
-/* text input box */
+
 .add-todo-box {
     width:319px;
     height:84px;
