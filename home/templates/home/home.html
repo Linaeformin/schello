@@ -1,10 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>홈 화면</h1>
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=375, initial-scale=1.0" />
+    <title>홈 - Sche:llo</title>
+    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="/home/static/home/home.css" />
+  </head>
+  <body>
+    <div id="root">
+      <div class="app-wrapper">
+        <div class="home-container">
+          <div class="home-title">
+            <div class="calendar-header">
+              <div id="calendar-year">2025년</div>
+              <div class="home-month">
+                <button id="prev-month">‹</button>
+                <span id="calendar-month">5월</span>
+                <button id="next-month">›</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 주간 뷰 -->
+          <section class="week-calendar"></section>
+
+          <!-- 일정리스트-->
+          <section class="schedule-list"></section>
+
+          <!-- 하단 내비게이션 -->
+          <nav class="bottom-nav">
+            <button class="nav-item">
+              <img
+                src="/home/static/images/home.png"
+                alt="홈 버튼"
+                class="home-button"
+              />
+            </button>
+            <button class="nav-item">
+              <img
+                src="/home/static/images/plus-circle.svg"
+                alt="일정추가 버튼"
+                class="plus-circle"
+              />
+            </button>
+            <button class="nav-item">
+              <img
+                src="/home/static/images/profile.png"
+                alt="프로필 버튼"
+                class="home-button"
+              />
+            </button>
+          </nav>
+        </div>
+
+        <div class="modal-overlay hidden">
+          <div class="modal">
+            <p>일정을 삭제할까요?</p>
+            <div class="modal-buttons">
+              <button class="cancel-btn">취소</button>
+              <button class="confirm-delete-btn">삭제</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/home/static/home.js"></script>
+  </body>
 </html>
