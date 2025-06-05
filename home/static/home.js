@@ -292,3 +292,13 @@ function openConfirmModal(message, onConfirm) {
     close();
   };
 }
+
+//--------------첫 실행 화면 띄우기----------------------
+
+window.addEventListener('DOMContentLoaded',() => {
+  const firstScreen=document.querySelector('.first');
+
+  setTimeout(()=>{
+    firstScreen.classList.add('hidden');
+  }, 3000);
+});
