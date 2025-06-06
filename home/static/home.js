@@ -117,16 +117,53 @@ async function renderSchedules(selectedDate) {
   schedules.forEach((s) => {
     s.priority = s.priority !== null ? s.priority : 0;
     s.memo = s.memo || "메모 없음";
-    s.time = s.time || "하루종일";
 
+    if (s.start && s.end) {
+      displayTime = `${s.start} ~ ${s.end}`;
+    } else if (s.start) {
+      displayTime = `${s.start} ~`;
+    } else if (s.end) {
+      displayTime = `~ ${s.end}`;
+    } else {
+      displayTime = '하루종일';
+    }
+    s.displayTime = displayTime;
   });
 
-  schedules.sort((a, b) => {
-    if (a.priority !== b.priority) return a.priority - b.priority;
-    if (a.time === '하루종일' && b.time !== '하루종일') return -1;
-    if (a.time !== '하루종일' && b.time === '하루종일') return 1;
-    return a.time.localeCompare(b.time);
-  });
+schedules.sort((a, b) => {
+  const priorityA = a.priority === null ? Infinity : a.priority;
+  const priorityB = b.priority === null ? Infinity : b.priority;
+
+  if (priorityA !== priorityB) {
+    return priorityA - priorityB;
+  }
+
+  const isAllDayA = a.displayTime === '하루종일';
+  const isAllDayB = b.displayTime === '하루종일';
+
+  if (isAllDayA && !isAllDayB) {
+    return 1;
+  }
+  if (!isAllDayA && isAllDayB) {
+    return -1;
+  }
+  if (isAllDayA && isAllDayB) {
+    return 0;
+  }
+
+  const timeA = a.displayTime.split(' ')[0];
+  const timeB = b.displayTime.split(' ')[0];
+
+  const hourA = parseInt(timeA.split(':')[0], 10);
+  const minuteA = parseInt(timeA.split(':')[1], 10);
+  const totalMinutesA = hourA * 60 + minuteA;
+
+  const hourB = parseInt(timeB.split(':')[0], 10);
+  const minuteB = parseInt(timeB.split(':')[1], 10);
+  const totalMinutesB = hourB * 60 + minuteB;
+
+  return totalMinutesA - totalMinutesB;
+});
 
   if (schedules.length === 0) {
     scheduleList.innerHTML = `<div class="no-schedule">추가된 일정이 없습니다.</div>`;
@@ -143,7 +180,7 @@ async function renderSchedules(selectedDate) {
         <span class="checkmark"></span>
       </div>
       <div class="schedule-info">
-        <div class="schedule-time">${item.time}</div>
+        <div class="schedule-time">${item.displayTime}</div>
         <div class="schedule-title">${item.title}</div>
         <div class="schedule-memo">${item.memo}</div>
       </div>
