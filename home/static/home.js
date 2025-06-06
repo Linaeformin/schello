@@ -118,6 +118,7 @@ async function renderSchedules(selectedDate) {
     s.priority = s.priority !== null ? s.priority : 0;
     s.memo = s.memo || "메모 없음";
 
+    let displayTime = '';
     if (s.start && s.end) {
       displayTime = `${s.start} ~ ${s.end}`;
     } else if (s.start) {
@@ -393,3 +394,12 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+//--------------첫 실행 화면 띄우기----------------------
+
+window.addEventListener('DOMContentLoaded',() => {
+  const firstScreen=document.querySelector('.first');
+
+  setTimeout(()=>{
+    firstScreen.classList.add('hidden');
+  }, 3000);
+});
