@@ -1,7 +1,13 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required
 from .models import Member
+import logging
+logger = logging.getLogger(__name__)
+
+from django.conf import settings
+from allauth.socialaccount.models import SocialApp
 
 # 홈페이지 뷰 함수 정의
 def home(request):
@@ -31,7 +37,16 @@ def logout_test_view(request):
 @login_required
 def profile_view(request):
     user = request.user
-    member = Member.objects.get(user = user)  # 유저에 연결된 멤버 가져오기
+
+    # 존재하지 않으면 자동 생성
+    member, created = Member.objects.get_or_create(
+        user=user,
+        defaults={
+            'name': user.username,
+            'img_url': '/static/accounts/default-profile.png'
+        }
+    )
+
     context = {
         'user_name': member.name,
         'user_email': user.email,
