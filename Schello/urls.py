@@ -23,7 +23,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     # 홈 화면
-    path('', include('home.urls')),
+    path('home/', include('home.urls')),
 
     # 일정 추가 화면
     path('add_todo/', include('schedules.urls')),
