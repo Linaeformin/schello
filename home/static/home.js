@@ -117,15 +117,25 @@ async function renderSchedules(selectedDate) {
   schedules.forEach((s) => {
     s.priority = s.priority !== null ? s.priority : 0;
     s.memo = s.memo || "메모 없음";
-    s.time = s.time || "하루종일";
 
+    let displayTime = '';
+    if (s.start && s.end) {
+      displayTime = `${s.start} ~ ${s.end}`;
+    } else if (s.start) {
+      displayTime = `${s.start} ~`;
+    } else if (s.end) {
+      displayTime = `~ ${s.end}`;
+    } else {
+      displayTime = '하루종일';
+    }
+    s.displayTime = displayTime;
   });
 
   schedules.sort((a, b) => {
     if (a.priority !== b.priority) return a.priority - b.priority;
-    if (a.time === '하루종일' && b.time !== '하루종일') return -1;
-    if (a.time !== '하루종일' && b.time === '하루종일') return 1;
-    return a.time.localeCompare(b.time);
+    if (a.displayTime === '하루종일' && b.displayTime !== '하루종일') return -1;
+    if (a.displayTime !== '하루종일' && b.displayTime === '하루종일') return 1;
+    return a.displayTime.localeCompare(b.displayTime);
   });
 
   if (schedules.length === 0) {
@@ -143,7 +153,7 @@ async function renderSchedules(selectedDate) {
         <span class="checkmark"></span>
       </div>
       <div class="schedule-info">
-        <div class="schedule-time">${item.time}</div>
+        <div class="schedule-time">${item.displayTime}</div>
         <div class="schedule-title">${item.title}</div>
         <div class="schedule-memo">${item.memo}</div>
       </div>

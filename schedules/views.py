@@ -49,7 +49,7 @@ def schedule_list_api(request):
             data.append({
                 'id': schedule.id,
                 'date': schedule.date.isoformat(),
-                'start': schedule.start.strftime('%H:%M') if schedule.start else '하루종일',
+                'start': schedule.start.strftime('%H:%M') if schedule.start else None,
                 'end': schedule.end.strftime('%H:%M') if schedule.end else None,
                 'title': schedule.title,
                 'memo': schedule.memo if schedule.memo else '메모 없음',
