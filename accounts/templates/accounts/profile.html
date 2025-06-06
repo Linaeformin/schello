@@ -1,70 +1,74 @@
 <!DOCTYPE html>
 <html lang="ko">
-{% load static %}
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>프로필 페이지</title>
-        <link rel="stylesheet" href="{% static 'accounts/profile.css' %}"/>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="{% static 'accounts/profile.css' %}"/>
+    <link rel="stylesheet" href="/static/main.css" />
+        <link rel="stylesheet" href="/static/navbar.css" />
+    <link rel="stylesheet" href="/schedules/static/schedules/todo.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root">
+      <div class="app-wrapper">
+        <div class ="profile-container">
+        <header>
+          <button class="back-btn">
+            <span class="material-icons">arrow_back</span>
+          </button>
+        </header>
+        <div class="content">
+          <div class="profile-content">
+            <div class="profile-img">
+                <img src="{{ img_url }}" alt="프로필 사진" id="profileImage"/>
+            </div>
 
-    </head>
-    <body>
-        <div class="root">
-         <header>
-            <button class="back-btn">
-                <span class="material-icons">arrow_back</span>
-            </button>
-         </header>
-         <div class="content">
-            <div class="profile-content">
-                <div class="profile-img">
-                    <img src="{{ img_url }}" alt="프로필 사진" id="profileImage"/>
-                </div>
-        
                 <div class="user-info">
                   <p class="user-name" id="userName">{{ user_name }}</p>
                   <p class="user-email" id="userEmail">{{ user_email }}</p>
                 </div>
-                <!--profile.js 파일에서 사용자 로그인에서 받은 변수를 띄우는 코드 작성 -->
+            <!--profile.js 파일에서 사용자 로그인에서 받은 변수를 띄우는 코드 작성 -->
+          </div>
 
+          <div>
+            <div class="button-box">
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                style="display: none"
+              />
+
+              <button id="editBtn">프로필사진 수정</button>
+              <button id="logoutBtn">로그아웃</button>
             </div>
 
-            <div> 
-                <div class="button-box">
-                <input type="file" id="fileInput" accept="image/*" style="display:none;"/>
-
-                <button id="editBtn">
-                    프로필사진 수정
-                </button> 
-                <button id="logoutBtn">
-                    로그아웃
-                </button>
-                 
-                <div class="modal-overlay" id="modal">
-                    <div class="modal-box">
-                        <div class="modal-content">
-                        <p class="modal-text">로그아웃 하시겠습니까?</p>
-                        <div class="modal-buttons">
-                            <button class="modal-cancel">취소</button>
-                            <button class="modal-confirm">로그아웃</button>
-                        <!---로그아웃 버튼 누르면, 실행화면으로 레디액션-->
-
-                        </div>
-                        </div>
-                    </div>
+            <div class="modal-overlay" id="modal">
+              <div class="modal-box">
+                <div class="modal-content">
+                  <p class="modal-text">로그아웃 하시겠습니까?</p>
+                  <div class="modal-buttons">
+                    <button class="modal-cancel">취소</button>
+                    <button class="modal-confirm">로그아웃</button>
+                    <!---로그아웃 버튼 누르면, 실행화면으로 레디액션-->
+                  </div>
                 </div>
+              </div>
             </div>
-         </div>
-         <div class="nav-bar">
-           <!--nav-bar는 컴포넌트??-->
-         </div>
+          </div>
         </div>
-        <script>
-          const userName = "{{ user_name }}";
-          const userEmail = "{{ user_email }}";
-          const imgUrl = "{{ img_url }}";
-        </script>
+      </div>
+    </div>
+</div>
+    <script>
+        const userName = "{{ user_name }}";
+        const userEmail = "{{ user_email }}";
+        const imgUrl = "{{ img_url }}";
+    </script>
     <script src="{% static 'accounts/profile.js' %}"></script>
-    </body>
+  </body>
 </html>

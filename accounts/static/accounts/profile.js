@@ -1,3 +1,5 @@
+import { setupBottomSheetEvents, openBottomSheet} from "/static/bottomSheetHandler.js";
+
 //카카오 프로필 사진으로 초기 프로필 이미지 설정
 // const kakaoProfileImageUrl = "카카오톡 프로필 사진 URL"
 
@@ -9,6 +11,7 @@
 const editBtn = document.getElementById('editBtn');
 const fileInput = document.getElementById('fileInput');
 const profileImage = document.getElementById('profileImage');
+
 
 editBtn.addEventListener('click', () => {
     fileInput.click(); // 
@@ -53,3 +56,27 @@ document.getElementById('profileImage').src = imgUrl;
 
 
 
+
+// 공통 UI(nav-bar, add-todo-sheet) 불러오기---------------------
+window.addEventListener("DOMContentLoaded", async () => {
+  // nav-bar 삽입
+  const navRes = await fetch("/templates/nav-bar.html");
+  const navHtml = await navRes.text();
+  document.querySelector(".profile-container").insertAdjacentHTML("beforeend", navHtml);
+
+  // 일정추가 바텀시트 삽입
+  const sheetRes = await fetch("/schedules/templates/schedules/add-todo-sheet.html");
+  const sheetHtml = await sheetRes.text();
+  document.querySelector(".profile-container").insertAdjacentHTML("beforeend", sheetHtml);
+
+  // 바텀시트 이벤트 핸들러 등록
+  setupBottomSheetEvents();
+});
+
+//하단 nav-bar에서 홈화면/프로필 페이지 마다 아이콘 색 변경을 위함
+document.addEventListener("DOMContentLoaded", () => {
+  const homeIcon = document.querySelector(".profile-button");
+  if (homeIcon) {
+    homeIcon.classList.add("active-nav-icon");
+  }
+});
