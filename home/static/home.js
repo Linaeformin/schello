@@ -1,5 +1,6 @@
 // 기준 날짜
 let currentDate = new Date();
+
 const checkedStatus = {}; //전역 상태저장
 
 async function fetchSchedules(dateStr) {
@@ -117,6 +118,7 @@ async function renderSchedules(selectedDate) {
   schedules.forEach((s) => {
     s.priority = s.priority !== null ? s.priority : 0;
     s.memo = s.memo || "메모 없음";
+    s.time = s.time || "하루종일";
 
     let displayTime = '';
     if (s.start && s.end) {
@@ -366,3 +368,12 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+//--------------첫 실행 화면 띄우기----------------------
+
+window.addEventListener('DOMContentLoaded',() => {
+  const firstScreen=document.querySelector('.first');
+
+  setTimeout(()=>{
+    firstScreen.classList.add('hidden');
+  }, 3000);
+});
