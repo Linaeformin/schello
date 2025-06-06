@@ -49,3 +49,7 @@ input.required-placeholder::placeholder {
 button{
     cursor: pointer;
 }
+
+body {
+  padding-bottom: 60px; /* nav-bar 높이만큼 */
+}
