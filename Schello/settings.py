@@ -32,6 +32,7 @@ SITE_ID = 1
 # Application definition
 
 INSTALLED_APPS = [
+    # Django 기본 앱들
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,16 +40,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'accounts',
+    # 내가 만든 앱
+    'accounts.apps.AccountsConfig',
     'schedules',
 
-    # allauth (카카오 소셜 로그인)
+    # allauth 관련 앱
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.kakao',
-    'django.contrib.sites',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -160,5 +163,12 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/kakao/login/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # 루트 static 폴더만 등록!
 ]
+
+# allauth에서 이메일 가져오지 않게 설정
+ACCOUNT_SIGNUP_FIELDS = ['username']  # 이메일 없이 가입 가능
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+
 
 

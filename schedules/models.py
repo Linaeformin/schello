@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import Member
+from django.contrib.auth.models import User
 
 class Schedule(models.Model):
     PRIORITY_CHOICES = [
@@ -8,7 +8,7 @@ class Schedule(models.Model):
         (3, '낮음'),
     ]
 
-    member = models.ForeignKey(Member, related_name = 'schedules', on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length = 20)  # 공백 포함 20자 제한
     date = models.DateField()
     start = models.DateTimeField(blank = True, null = True)
