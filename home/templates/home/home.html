@@ -5,23 +5,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=375, initial-scale=1.0" />
     <title>홈 - Sche:llo</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}" />
-    <link rel="stylesheet" href="{% static 'home.css' %}" />
+    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="/home/static/home.css" />
+    <link rel="stylesheet" href="/static/navbar.css" />
+    <link rel="stylesheet" href="/schedules/static/schedules/todo.css" />
   </head>
   <body>
-  <div id="root">
-
-    <!-- 첫 실행 화면 -->
-     <div class="first">
-      <div class="app-wrapper">
-        <div class="first-wrapper"></div>
-        <img src="/home/static/images/logo.png"
-             alt="Schello 로고"
-             class="schello-logo" />
+    <div id="root">
+      
+      <!-- 첫 실행 화면 -->
+      <div class="first">
+        <div class="app-wrapper">
+          <div class="first-wrapper"></div>
+          <img
+            src="/home/static/images/logo.png"
+            alt="Schello 로고"
+            class="schello-logo"
+          />
+        </div>
       </div>
-    </div>
 
-    <!--메인화면-->
+      <!--메인화면-->
       <div class="app-wrapper">
         <div class="home-container">
           <div class="home-title">
@@ -40,31 +44,6 @@
 
           <!-- 일정리스트-->
           <section class="schedule-list"></section>
-
-          <!-- 하단 내비게이션 -->
-          <nav class="bottom-nav">
-            <button class="nav-item">
-              <img
-                src="{% static 'images/home.png' %}"
-                alt="홈 버튼"
-                class="home-button"
-              />
-            </button>
-            <button class="nav-item">
-              <img
-                src="{% static 'images/plus-circle.svg' %}"
-                alt="일정추가 버튼"
-                class="plus-circle"
-              />
-            </button>
-            <button class="nav-item">
-              <img
-                src="{% static 'images/profile.png' %}"
-                alt="프로필 버튼"
-                class="home-button"
-              />
-            </button>
-          </nav>
         </div>
 
         <div class="modal-overlay hidden">
@@ -78,6 +57,7 @@
         </div>
       </div>
     </div>
-    <script src="{% static 'home.js' %}"></script>
+
+    <script type="module" src="/home/static/home.js"></script>
   </body>
 </html>
