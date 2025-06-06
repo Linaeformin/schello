@@ -50,11 +50,10 @@ modalConfirm.addEventListener('click', () => {
 
 //데이터 받아오고 불러오기
 // 예시 사용자 정보 변수
-const userName = "김슈니";
-const userEmail = "swunikim0102@daum.net";
-
 document.getElementById('userName').textContent = userName;
 document.getElementById('userEmail').textContent = userEmail;
+document.getElementById('profileImage').src = imgUrl;
+
 
 
 

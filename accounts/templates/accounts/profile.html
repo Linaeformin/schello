@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko">
+{% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/accounts/static/accounts/profile.css" />
+      <link rel="stylesheet" href="{% static 'accounts/profile.css' %}"/>
     <link rel="stylesheet" href="/static/main.css" />
         <link rel="stylesheet" href="/static/navbar.css" />
     <link rel="stylesheet" href="/schedules/static/schedules/todo.css" />
@@ -24,17 +25,13 @@
         <div class="content">
           <div class="profile-content">
             <div class="profile-img">
-              <img
-                src="/accounts/static/accounts/images/logo.png"
-                alt="프로필 사진"
-                id="profileImage"
-              />
+                <img src="{{ img_url }}" alt="프로필 사진" id="profileImage"/>
             </div>
 
-            <div class="user-info">
-              <p class="user-name" id="userName"></p>
-              <p class="user-email" id="userEmail"></p>
-            </div>
+                <div class="user-info">
+                  <p class="user-name" id="userName">{{ user_name }}</p>
+                  <p class="user-email" id="userEmail">{{ user_email }}</p>
+                </div>
             <!--profile.js 파일에서 사용자 로그인에서 받은 변수를 띄우는 코드 작성 -->
           </div>
 
@@ -68,6 +65,11 @@
       </div>
     </div>
 </div>
-    <script type="module" src="/accounts/static/accounts/profile.js"></script>
+    <script>
+        const userName = "{{ user_name }}";
+        const userEmail = "{{ user_email }}";
+        const imgUrl = "{{ img_url }}";
+    </script>
+    <script src="{% static 'accounts/profile.js' %}"></script>
   </body>
 </html>
