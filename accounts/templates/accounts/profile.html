@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
+{% load static %}
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>프로필 페이지</title>
-        <Link rel="stylesheet" href="profile.css"/>
+        <link rel="stylesheet" href="{% static 'accounts/profile.css' %}"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     </head>
@@ -18,12 +19,12 @@
          <div class="content">
             <div class="profile-content">
                 <div class="profile-img">
-                    <img src="default-profile.jpg" alt="프로필 사진" id="profileImage"/>
+                    <img src="{{ img_url }}" alt="프로필 사진" id="profileImage"/>
                 </div>
         
                 <div class="user-info">
-                  <p class="user-name" id="userName"></p>
-                  <p class="user-email" id="userEmail"></p>
+                  <p class="user-name" id="userName">{{ user_name }}</p>
+                  <p class="user-email" id="userEmail">{{ user_email }}</p>
                 </div>
                 <!--profile.js 파일에서 사용자 로그인에서 받은 변수를 띄우는 코드 작성 -->
 
@@ -59,7 +60,11 @@
            <!--nav-bar는 컴포넌트??-->
          </div>
         </div>
-
-        <script src="profile.js"></script>
+        <script>
+          const userName = "{{ user_name }}";
+          const userEmail = "{{ user_email }}";
+          const imgUrl = "{{ img_url }}";
+        </script>
+    <script src="{% static 'accounts/profile.js' %}"></script>
     </body>
 </html>
