@@ -16,7 +16,8 @@
             </div>
 
             <!-- form -->
-            <form class="todo-form" id="todoForm">
+            <form class="todo-form" id="todoForm" action="{% url 'add_todo' %}" method="post">
+                {% csrf_token %}
 
                 <!-- 일정 제목 & 메모 -->
                 <div class="add-todo-box">
