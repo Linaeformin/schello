@@ -156,6 +156,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS=[ BASE_DIR / "static" ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -163,6 +166,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 로그인 성공 후 반환 URL
 LOGIN_REDIRECT_URL = '/home/'
+
+# GET 요청으로 로그아웃
+ACCOUNT_LOGOUT_ON_GET = True
 
 # 로그아웃 성공 후 반환 URL
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/kakao/login/'
