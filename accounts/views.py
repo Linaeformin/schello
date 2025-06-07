@@ -31,8 +31,8 @@ def home(request):
     return render(request, 'base.html', context)
 
 
-# 로그아웃 테스트 코드
-def logout_test_view(request):
+# 로그아웃
+def logout(request):
     return render(request, 'accounts/profile.html')
 
 # 프로필에서 유저 정보를 가져오는 코드

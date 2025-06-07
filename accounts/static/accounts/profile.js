@@ -38,8 +38,8 @@ modalCancel?.addEventListener('click', () => {
   modal.style.display = 'none';
 });
 modalConfirm?.addEventListener('click', () => {
-  alert('로그아웃 처리!');
   modal.style.display = 'none';
+  window.location.href = "/accounts/logout/";
 });
 
 // 현재 페이지가 프로필이면 nav-bar 아이콘에 강조
