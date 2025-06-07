@@ -1,6 +1,8 @@
-import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/static/bottomSheetHandler.js";
+// 기준 날짜
+let currentDate = new Date();
+const checkedStatus = {}; //전역 상태저장
 
-//nav-bar-----------------------가져오기
+import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/static/bottomSheetHandler.js";
 
 //--------------첫 실행 화면 띄우기----------------------
 window.addEventListener('DOMContentLoaded',() => {
@@ -163,20 +165,54 @@ function renderSchedules(selectedDate) {
   let schedules = dummySchedules.filter(item => item.date === selectedDate);
   schedules.forEach(s => {
     s.memo = s.memo || "메모 없음";
-    s.time = s.time || "하루종일";
-  });
 
-  schedules.sort((a, b) => {
-    const priorityA = (a.priority === null || a.priority === undefined) ? 999 : a.priority;
-    const priorityB = (b.priority === null || b.priority === undefined) ? 999 : b.priority;
-
-    if (priorityA !== priorityB) {
-      return priorityA - priorityB;
+    let displayTime = '';
+    if (s.start && s.end) {
+      displayTime = `${s.start} ~ ${s.end}`;
+    } else if (s.start) {
+      displayTime = `${s.start} ~`;
+    } else if (s.end) {
+      displayTime = `~ ${s.end}`;
+    } else {
+      displayTime = '하루종일';
     }
-
-    return a.time.localeCompare(b.time);
+    s.displayTime = displayTime;
   });
 
+schedules.sort((a, b) => {
+  const priorityA = a.priority === null ? Infinity : a.priority;
+  const priorityB = b.priority === null ? Infinity : b.priority;
+
+  if (priorityA !== priorityB) {
+    return priorityA - priorityB;
+  }
+
+  const isAllDayA = a.displayTime === '하루종일';
+  const isAllDayB = b.displayTime === '하루종일';
+
+  if (isAllDayA && !isAllDayB) {
+    return 1;
+  }
+  if (!isAllDayA && isAllDayB) {
+    return -1;
+  }
+  if (isAllDayA && isAllDayB) {
+    return 0;
+  }
+
+  const timeA = a.displayTime.split(' ')[0];
+  const timeB = b.displayTime.split(' ')[0];
+
+  const hourA = parseInt(timeA.split(':')[0], 10);
+  const minuteA = parseInt(timeA.split(':')[1], 10);
+  const totalMinutesA = hourA * 60 + minuteA;
+
+  const hourB = parseInt(timeB.split(':')[0], 10);
+  const minuteB = parseInt(timeB.split(':')[1], 10);
+  const totalMinutesB = hourB * 60 + minuteB;
+
+  return totalMinutesA - totalMinutesB;
+});
 
   if (!schedules.length) {
     scheduleList.innerHTML = `<div class="no-schedule">추가된 일정이 없습니다.</div>`;
