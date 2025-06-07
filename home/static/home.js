@@ -3,14 +3,14 @@ import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/stat
 //nav-bar-----------------------가져오기
 
 //--------------첫 실행 화면 띄우기----------------------
-/*window.addEventListener('DOMContentLoaded',() => {
+window.addEventListener('DOMContentLoaded',() => {
   const firstScreen=document.querySelector('.first');
 
   setTimeout(()=>{
     firstScreen.classList.add('hidden');
   }, 3000);
 });
-*/
+
 
 //--------------------------------화면 띄워졌을때 nav-bar와 바텀 시트 등을 가져오기------------
 window.addEventListener("DOMContentLoaded", async () => {
@@ -191,12 +191,15 @@ function renderSchedules(selectedDate) {
 
     card.className = "schedule-card";
     card.innerHTML = `
-      <div class="schedule-checkbox">
-        <input type="checkbox" class="check-task" data-id="${item.id}">
-        <span class="checkmark"></span>
+      <div class = "schedule-left">
+        <div class="prior-icon">${iconHtml}</div>
+        <div class="schedule-checkbox">
+          <input type="checkbox" class="check-task" data-id="${item.id}">
+          <span class="checkmark"></span>
+        </div>
       </div>
       <div class="schedule-info">
-        <div class="schedule-time">${iconHtml}${item.time}</div>
+        <div class="schedule-time">${item.time}</div>
         <div class="schedule-title">${item.title}</div>
         <div class="schedule-memo">${item.memo}</div>
       </div>

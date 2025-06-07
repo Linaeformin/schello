@@ -136,6 +136,7 @@
 }
 
 /*-----------일정 리스트-----------*/
+
 .required-placeholder::placeholder {
   color: red;
 }
@@ -193,6 +194,19 @@
     gap: 10px;
 }
 
+.schedule-left{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*-----우선순위---*/
+.prior-icon{
+    width:18px;
+    height:18px;
+    margin-bottom: 13px;
+}
+
 .schedule-checkbox {
     display: flex;
     align-items: flex-start;
@@ -238,7 +252,9 @@
     font-feature-settings: 'liga' off, 'clig' off;
     margin-bottom: 16px;
 }
-
+.space{
+    color:transparent;
+}
 .schedule-title {
     flex: 1 0 0;
     font-size: 14px;
@@ -393,14 +409,6 @@
 
 .hidden {
     display: none;
-}
-
-/*-----우선순위---*/
-.priority-icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 6px;
-    vertical-align: middle;
 }
 
 /*첫 실행 화면*/
