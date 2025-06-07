@@ -13,6 +13,7 @@ window.addEventListener('DOMContentLoaded',() => {
   }, 3000);
 });
 
+
 //--------------------------------화면 띄워졌을때 nav-bar와 바텀 시트 등을 가져오기------------
 window.addEventListener("DOMContentLoaded", async () => {
   const navRes = await fetch("/templates/nav-bar.html");
@@ -25,6 +26,9 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   setupBottomSheetEvents();
   attachEditBtnHandler();
+
+  const scheduleList = document.querySelector(".nav-icon2");
+  scheduleList.style.opacity= 0.5;
 
   const form = document.getElementById("todoForm");
   form.addEventListener("submit", (e) => {
@@ -223,12 +227,15 @@ schedules.sort((a, b) => {
 
     card.className = "schedule-card";
     card.innerHTML = `
-      <div class="schedule-checkbox">
-        <input type="checkbox" class="check-task" data-id="${item.id}">
-        <span class="checkmark"></span>
+      <div class = "schedule-left">
+        <div class="prior-icon">${iconHtml}</div>
+        <div class="schedule-checkbox">
+          <input type="checkbox" class="check-task" data-id="${item.id}">
+          <span class="checkmark"></span>
+        </div>
       </div>
       <div class="schedule-info">
-        <div class="schedule-time">${iconHtml}${item.time}</div>
+        <div class="schedule-time">${item.time}</div>
         <div class="schedule-title">${item.title}</div>
         <div class="schedule-memo">${item.memo}</div>
       </div>
@@ -288,10 +295,6 @@ document.getElementById("next-month").addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
   const weekCalendar = document.querySelector(".week-calendar");
   const scheduleList = document.querySelector(".schedule-list");
-const homeIcon = document.querySelector(".home-button");
-  if (homeIcon) {
-    homeIcon.classList.add("active-nav-icon");
-  }
   renderCalendar(currentDate);
   setTimeout(() => {
     const todayBox = document.querySelector(".day-box.today");

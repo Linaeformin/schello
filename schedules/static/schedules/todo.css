@@ -41,7 +41,8 @@
     height: 16px;
     display: flex;
     align-items: center;
-    justify-content: space-between
+    justify-content: space-between;
+    text-box: auto;
 }
 
 .cancel-btn,
@@ -50,8 +51,9 @@
     background: none;
     padding: 0;
     margin: 0;
+    width: auto;
+    height: auto;
     font-size: 16px;
-    font-weight: 400;
     color: #292C33;
     cursor: pointer;
     z-index: 1;
@@ -59,6 +61,7 @@
 
 #submitBtn {
     color: #006FFD;
+    font-weight: 600!important;
 }
 
 .add-todo-title {
@@ -77,6 +80,7 @@
     flex-direction: column;
     gap: 32px;
     width: 319px;
+    height: 352px;
 }
 
 /* text input box */
@@ -91,7 +95,7 @@
     background-color: #FFFFFF;
     flex-direction: column;
     position: relative;
-    gap: 22px;
+    justify-content: space-between;
 }
 
 .add-todo-box input[type="text"] {
@@ -120,7 +124,7 @@
 /* 날짜, 시간 박스 */
 .add-todo-box2 {
     width: 319px;
-    height: auto;
+    height: 236px;
     display: flex;
     border-radius: 10px;
     border: 1px solid #E6EAF2;
@@ -138,90 +142,91 @@
 }
 
 .date-title {
-    width: auto;
-    height: 12px;
-    font-size: 12px;
-    font-weight: 400px;
-    line-height: 100%;
-    color: #292C33;
+    width: 100%;
+    height: 42px;
     padding-left: 10px;
+}
+.date-title p{
+    font-size: 12px;
+    font-weight: 400;
+    color: #292C33;
+    text-align: justify;
 }
 
 .divider1 {
     height: 1px;
     width: 319px;
     background-color: #E6EAF2;
-    margin: 0px;
-    padding: 0px;
-    position: absolute;
-    left: 0px;
-    top: 36px;
 }
 
 .date-detail {
     width: 319px;
-    height: 90px;
+    height: 84px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
+    padding: 34px 0px;
     top: 36px;
 }
 
 .date-wapper {
     width: 100%;
     height: 100%;
-    padding: 34px 49px;
     box-sizing: border-box;
     display: flex;
     gap: 28px;
     justify-content: center;
+    text-align: center;
 }
 
 .year-box {
     display: flex;
-    width: auto;
+    width: 56px;
     height: 14px;
     align-items: center;
 }
 
-input{
-    width: 42px;
-    height: auto;
+#year{
+    width: 44px;
+    height: 14px;
 }
 
 .month-box {
     display: flex;
     width: 33px;
     height: 14px;
-    align-items: center;
-    margin-left: 28px;
 }
 
-input #month{
-    width: 10px;
+#month{
+    width: 20px;
     height: auto;
 }
 
-.day-box {
+.daybox {
     display: flex;
-    width: auto;
+    width: 35px;
     height: 14px;
     align-items: center;
+}
+
+#day{
+    width: 23px;
+    height: auto;
 }
 
 .date-detail input[type="number"] {
     border: none;
     border-bottom: 1px solid #E6EAF2;
     font-size: 16px;
-    font-weight: 600px;
+    font-weight: 600;
     line-height: 14px;
     margin-left: 0px;
+    text-align: end;
 }
 
 .date-detail label {
     font-size: 16px;
-    font-weight: 600px;
+    font-weight: 600;
     line-height: 14px;
     margin-left: 0px;
     color: #292C33;
@@ -246,11 +251,10 @@ input #month{
     width: 319px;
     height: 55px;
     font-size: 12px;
-    font-weight: 400px;
+    font-weight: 400;
     line-height: 100%;
     box-sizing: border-box;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding:16px 10px 14px 10px;
     display: flex;
     color: #292C33;
 }
@@ -390,7 +394,7 @@ input #month{
     display: flex;
     flex-direction: column;
     position: absolute;
-    right: 12px;
+    right: 1px;
 }
 
 .priority-wapper {
@@ -448,15 +452,15 @@ input #month{
 
 .add-todo-sheet {
     margin-top: 500px;
-    width: 375px;
-    height: 680px;
+    width: 359px;
+    height: 740px;
     border-radius: 40px;
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    padding: 40px 0;
+    padding: 24px 20px 316px 20px;
     background-color: var(--background-color);
-    position: fixed;
+    position: absolute;
     max-height: 90%;
     background: white;
     border-radius: 20px 20px 0 0;

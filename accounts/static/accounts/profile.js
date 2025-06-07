@@ -42,14 +42,6 @@ modalConfirm?.addEventListener('click', () => {
   window.location.href = "/accounts/logout/";
 });
 
-// 현재 페이지가 프로필이면 nav-bar 아이콘에 강조
-document.addEventListener("DOMContentLoaded", () => {
-  const homeIcon = document.querySelector(".profile-button");
-  if (homeIcon) {
-    homeIcon.classList.add("active-nav-icon");
-  }
-});
-
 // 돌아가기 화살표 클릭 시
 document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.querySelector(".back-btn");

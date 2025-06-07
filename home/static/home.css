@@ -34,10 +34,11 @@
 }
 
 .calendar-header {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    transform: translateY(-10px);
 
 }
 
@@ -71,14 +72,14 @@
 .week-calendar.dragging {
     cursor: grabbing;
     user-select: none;
-    background-color: #fafafa;
+    background-color: #fff;
     user-select: none;
 }
 
 .day-box {
     flex: 0 0 calc((100% - 48px) / 7);
     box-sizing: border-box;
-    width: calc((100% - 48px) / 7);
+    width: 44px;
     text-align: center;
     border-radius: 16px;
     cursor: pointer;
@@ -87,9 +88,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 59px; 
-        box-sizing: border-box!important;
-
+    height: 59px;
 }
 
 .day-box .weekday {
@@ -137,8 +136,9 @@
 }
 
 /*-----------일정 리스트-----------*/
+
 .required-placeholder::placeholder {
-  color: red;
+    color: red;
 }
 
 .schedule-list {
@@ -157,12 +157,14 @@
     margin-bottom: 0px;
     touch-action: pan-y;
     cursor: pointer;
+    background-color: #fff;
+
 }
 
 .schedule-list.dragging {
     cursor: grabbing;
     user-select: none;
-    background-color: #fafafa;
+    background-color: #fff;
     user-select: none;
 }
 
@@ -192,6 +194,19 @@
     align-items: center;
     display: flex;
     gap: 10px;
+}
+
+.schedule-left {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/*-----우선순위---*/
+.prior-icon {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 13px;
 }
 
 .schedule-checkbox {
@@ -238,6 +253,10 @@
     color: var(--gray-50);
     font-feature-settings: 'liga' off, 'clig' off;
     margin-bottom: 16px;
+}
+
+.space {
+    color: transparent;
 }
 
 .schedule-title {
@@ -396,36 +415,27 @@
     display: none;
 }
 
-/*-----우선순위---*/
-.priority-icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 6px;
-    vertical-align: middle;
-}
-
 /*첫 실행 화면*/
-
-.schello-logo{
-    width:180px;
-    height:227px;
+.schello-logo {
+    width: 180px;
+    height: 227px;
     position: absolute;
-    top:292px;
-    left:97px;
+    top: 292px;
+    left: 97px;
 }
 
-.first{
-    width:100%;
-    height:100%;
+.first {
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top:0px;
-    left:0px;
+    top: 0px;
+    left: 0px;
     z-index: 9999;
 }
 
-.first-wrapper{
-    width:375px;
-    height:812px;
+.first-wrapper {
+    width: 375px;
+    height: 812px;
     background-color: #ffff;
 }
 
