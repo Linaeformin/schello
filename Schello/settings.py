@@ -178,7 +178,8 @@ STATICFILES_DIRS = [
 ]
 
 # allauth에서 이메일 가져오지 않게 설정
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
+ACCOUNT_EMAIL_VERIFICATION = "none"  # 또는 'mandatory'
 SOCIALACCOUNT_QUERY_EMAIL = True
 
 
