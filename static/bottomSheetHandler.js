@@ -27,7 +27,7 @@ export function setupBottomSheetEvents() {
 export function openBottomSheet(mode = 'add', schedule = null) {
   const sheet = document.querySelector(".add-todo-sheet");
   const titleEl = document.querySelector(".add-todo-title");
-
+  document.body.style.overflow = 'hidden';
   if (!sheet || !titleEl) {
     console.warn("바텀시트 요소가 아직 로드되지 않았습니다.");
     return;

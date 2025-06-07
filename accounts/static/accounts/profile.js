@@ -1,4 +1,4 @@
-import { setupBottomSheetEvents, openBottomSheet} from "/static/bottomSheetHandler.js";
+import { setupBottomSheetEvents, openBottomSheet, resetFormFields, closeBottomSheet } from "/static/bottomSheetHandler.js";
 
 //카카오 프로필 사진으로 초기 프로필 이미지 설정
 // const kakaoProfileImageUrl = "카카오톡 프로필 사진 URL"
@@ -60,24 +60,82 @@ document.getElementById('userEmail').textContent = userEmail;
 
 // 공통 UI(nav-bar, add-todo-sheet) 불러오기---------------------
 window.addEventListener("DOMContentLoaded", async () => {
-  // nav-bar 삽입
   const navRes = await fetch("/templates/nav-bar.html");
   const navHtml = await navRes.text();
   document.querySelector(".profile-container").insertAdjacentHTML("beforeend", navHtml);
 
-  // 일정추가 바텀시트 삽입
   const sheetRes = await fetch("/schedules/templates/schedules/add-todo-sheet.html");
   const sheetHtml = await sheetRes.text();
   document.querySelector(".profile-container").insertAdjacentHTML("beforeend", sheetHtml);
 
-  // 바텀시트 이벤트 핸들러 등록
   setupBottomSheetEvents();
+
+  const scheduleList = document.querySelector(".nav-icon1");
+  scheduleList.style.opacity= 0.5;
+
+  const form = document.getElementById("todoForm");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const titleInput = document.getElementById("todo");
+    const title = titleInput.value.trim();
+    if (!title) {
+      titleInput.value = "";
+      titleInput.placeholder = "제목은 필수 입력입니다";
+      titleInput.classList.add("required-placeholder");
+      return;
+    }
+    titleInput.addEventListener("input", () => {
+      if (titleInput.classList.contains("required-placeholder")) {
+        titleInput.classList.remove("required-placeholder");
+        titleInput.placeholder = "일정 제목";
+      }
+    });
+
+    const memo = document.getElementById("memo").value;
+    const year = document.getElementById("year").value;
+    const month = document.getElementById("month").value;
+    const day = document.getElementById("day").value;
+    const date = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const sh = document.getElementById("start-hour").value;
+    const sm = document.getElementById("start-minute").value;
+    const eh = document.getElementById("end-hour").value;
+    const em = document.getElementById("end-minute").value;
+    const timeChecked = document.getElementById("time").checked;
+    const time = timeChecked && sh && eh ? `${sh}:${sm} - ${eh}:${em}` : "하루종일";
+    const priorityChecked = document.getElementById("priority").checked;
+    const pr = document.querySelector("input[name='priority-radio']:checked");
+    const priority = priorityChecked && pr ? parseInt(pr.value) : null;
+
+    if (window.editingScheduleId !== null) {
+      const target = dummySchedules.find(s => s.id === window.editingScheduleId);
+      if (target) {
+        target.title = title || target.title;
+        target.memo = memo || target.memo;
+        target.date = date;
+        target.time = time;
+        target.priority = priority;
+        console.log("[수정 완료]", target);
+      }
+    } else {
+      const newId = dummySchedules.length ? Math.max(...dummySchedules.map(s => s.id)) + 1 : 1;
+      const newSchedule = { id: newId, title, memo, date, time, priority };
+      dummySchedules.push(newSchedule);
+      console.log("[추가 완료]", newSchedule);
+    }
+
+    closeBottomSheet();
+    form.reset();
+    window.editingScheduleId = null;
+  });
 });
 
-//하단 nav-bar에서 홈화면/프로필 페이지 마다 아이콘 색 변경을 위함
+// nav-bar 색상 강조 처리
 document.addEventListener("DOMContentLoaded", () => {
-  const homeIcon = document.querySelector(".profile-button");
-  if (homeIcon) {
-    homeIcon.classList.add("active-nav-icon");
+  const profileIcon = document.querySelector(".profile-button");
+  if (profileIcon) {
+    profileIcon.classList.add("active-nav-icon");
   }
 });
+
+// 더미 스케줄 전역 배열
+window.dummySchedules = window.dummySchedules || [];

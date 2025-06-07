@@ -3,13 +3,14 @@ import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/stat
 //nav-bar-----------------------가져오기
 
 //--------------첫 실행 화면 띄우기----------------------
-window.addEventListener('DOMContentLoaded',() => {
+/*window.addEventListener('DOMContentLoaded',() => {
   const firstScreen=document.querySelector('.first');
 
   setTimeout(()=>{
     firstScreen.classList.add('hidden');
   }, 3000);
 });
+*/
 
 //--------------------------------화면 띄워졌을때 nav-bar와 바텀 시트 등을 가져오기------------
 window.addEventListener("DOMContentLoaded", async () => {
@@ -23,6 +24,9 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   setupBottomSheetEvents();
   attachEditBtnHandler();
+
+  const scheduleList = document.querySelector(".nav-icon2");
+  scheduleList.style.opacity= 0.5;
 
   const form = document.getElementById("todoForm");
   form.addEventListener("submit", (e) => {
@@ -252,10 +256,6 @@ document.getElementById("next-month").addEventListener("click", () => {
 document.addEventListener("DOMContentLoaded", () => {
   const weekCalendar = document.querySelector(".week-calendar");
   const scheduleList = document.querySelector(".schedule-list");
-const homeIcon = document.querySelector(".home-button");
-  if (homeIcon) {
-    homeIcon.classList.add("active-nav-icon");
-  }
   renderCalendar(currentDate);
   setTimeout(() => {
     const todayBox = document.querySelector(".day-box.today");

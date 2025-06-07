@@ -42,8 +42,3 @@
 .nav-icon {
   opacity: 0.5;
 }
-
-.active-nav-icon {
-  opacity: 1;
-  filter: brightness(1.2);
-}
