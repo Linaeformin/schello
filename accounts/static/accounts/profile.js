@@ -51,8 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // 돌아가기 화살표 클릭 시
-console.log("JS 파일 실행됨");
-
 document.addEventListener("DOMContentLoaded", () => {
   const backBtn = document.querySelector(".back-btn");
   backBtn.addEventListener("click", () => {
