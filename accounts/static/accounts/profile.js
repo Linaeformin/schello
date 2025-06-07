@@ -49,3 +49,22 @@ document.addEventListener("DOMContentLoaded", () => {
     homeIcon.classList.add("active-nav-icon");
   }
 });
+
+// 돌아가기 화살표 클릭 시
+console.log("JS 파일 실행됨");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const backBtn = document.querySelector(".back-btn");
+  if (backBtn) {
+    console.log("backBtn 요소 찾음");
+    backBtn.addEventListener("click", () => {
+      console.log("backBtn 클릭됨");
+      window.location.href = "/home";
+    });
+  } else {
+    console.log("backBtn 요소 못 찾음");
+  }
+});
+
+
+

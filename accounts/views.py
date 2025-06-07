@@ -56,6 +56,7 @@ def profile_view(request):
     }
     return render(request, 'accounts/profile.html', context)
 
+# 프로필 사진 수정 구현
 @require_POST
 @login_required
 def update_profile_image(request):
