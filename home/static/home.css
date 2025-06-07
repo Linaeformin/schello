@@ -72,7 +72,7 @@
 .week-calendar.dragging {
     cursor: grabbing;
     user-select: none;
-    background-color: #fafafa;
+    background-color: #fff;
     user-select: none;
 }
 
@@ -88,7 +88,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 59px; 
+    height: 59px;
 }
 
 .day-box .weekday {
@@ -138,7 +138,7 @@
 /*-----------일정 리스트-----------*/
 
 .required-placeholder::placeholder {
-  color: red;
+    color: red;
 }
 
 .schedule-list {
@@ -157,12 +157,14 @@
     margin-bottom: 0px;
     touch-action: pan-y;
     cursor: pointer;
+    background-color: #fff;
+
 }
 
 .schedule-list.dragging {
     cursor: grabbing;
     user-select: none;
-    background-color: #fafafa;
+    background-color: #fff;
     user-select: none;
 }
 
@@ -194,16 +196,16 @@
     gap: 10px;
 }
 
-.schedule-left{
+.schedule-left {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
 /*-----우선순위---*/
-.prior-icon{
-    width:18px;
-    height:18px;
+.prior-icon {
+    width: 18px;
+    height: 18px;
     margin-bottom: 13px;
 }
 
@@ -252,9 +254,11 @@
     font-feature-settings: 'liga' off, 'clig' off;
     margin-bottom: 16px;
 }
-.space{
-    color:transparent;
+
+.space {
+    color: transparent;
 }
+
 .schedule-title {
     flex: 1 0 0;
     font-size: 14px;
@@ -412,26 +416,26 @@
 }
 
 /*첫 실행 화면*/
-.schello-logo{
-    width:180px;
-    height:227px;
+.schello-logo {
+    width: 180px;
+    height: 227px;
     position: absolute;
-    top:292px;
-    left:97px;
+    top: 292px;
+    left: 97px;
 }
 
-.first{
-    width:100%;
-    height:100%;
+.first {
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top:0px;
-    left:0px;
+    top: 0px;
+    left: 0px;
     z-index: 9999;
 }
 
-.first-wrapper{
-    width:375px;
-    height:812px;
+.first-wrapper {
+    width: 375px;
+    height: 812px;
     background-color: #ffff;
 }
 
