@@ -10,7 +10,7 @@ class Schedule(models.Model):
     ]
 
     # member = models.ForeignKey(Member, related_name = 'schedules', on_delete = models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'schedules', on_delete = models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'schedules', on_delete = models.CASCADE, null = True, blank = True)
     title = models.CharField(max_length = 20)  # 공백 포함 20자 제한
     date = models.DateField()
     start = models.TimeField(blank = True, null = True)

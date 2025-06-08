@@ -20,9 +20,9 @@
 
 body {
     margin: 0;
-    background-color: #292C33;
-    padding: 30px 0;
+    background-color: rgb(0, 0, 0);
     align-self: stretch;
+    padding: 30px 0;
 }
 
 #root {
@@ -40,4 +40,16 @@ body {
     height: 100%;
     position: relative;
     display: block;
+}
+
+input.required-placeholder::placeholder {
+  color: red!important;
+}
+
+button{
+    cursor: pointer;
+}
+
+body {
+  padding-bottom: 60px; /* nav-bar 높이만큼 */
 }

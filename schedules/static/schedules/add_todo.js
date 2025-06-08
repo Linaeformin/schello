@@ -1,3 +1,5 @@
+//일정 추가를 위한 입력값들 받아오는 js
+
 const todoForm = document.getElementById('todoForm');
 
         todoForm.addEventListener('submit', function(event) {

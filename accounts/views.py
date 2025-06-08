@@ -1,27 +1,82 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
 from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.decorators import login_required
+from .models import Member
+from django.views.decorators.http import require_POST
+import os
+import logging
+logger = logging.getLogger(__name__)
+
+from django.conf import settings
+from allauth.socialaccount.models import SocialApp
 
 # 홈페이지 뷰 함수 정의
 def home(request):
-    # 세션에서 'login_status' 값을 꺼내고, 꺼낸 후에는 세션에서 제거 (로그인 성공 / 실패 메시지 용도)
     login_status = request.session.pop('login_status', None)
 
-    # 현재 로그인한 사용자의 소셜 계정 정보 가져오기 (없으면 None)
-    social_account = SocialAccount.objects.filter(user = request.user).first()
+    social_account = None
+    extra_data = {}
 
-    # 소셜 계정이 있다면 그 안의 추가 데이터를 가져오고, 없으면 빈 딕셔너리
-    extra_data = social_account.extra_data if social_account else {}
+    if request.user.is_authenticated:
+        social_account = SocialAccount.objects.filter(user = request.user).first()
+        extra_data = social_account.extra_data if social_account else {}
 
-    # 템플릿에 넘겨줄 context 딕셔너리 정의
     context = {
         'login_status': login_status,
         'user': request.user,
         'extra_data': extra_data,
     }
 
-    # 'accounts/base.html' 템플릿을 렌더링하면서 context를 넘겨줌
     return render(request, 'base.html', context)
 
-# 로그아웃 테스트 코드
-def logout_test_view(request):
+
+# 로그아웃
+def logout(request):
     return render(request, 'accounts/profile.html')
+
+# 프로필에서 유저 정보를 가져오는 코드
+@login_required
+def profile_view(request):
+    user = request.user
+
+    # 존재하지 않으면 자동 생성
+    member, created = Member.objects.get_or_create(
+        user=user,
+        defaults={
+            'name': user.username,
+            'img_url': '/static/accounts/default-profile.png'
+        }
+    )
+
+    context = {
+        'user_name': member.name,
+        'user_email': user.email,
+        'img_url': member.img_url or '/static/accounts/default-profile.png',
+    }
+    return render(request, 'accounts/profile.html', context)
+
+# 프로필 사진 수정 구현
+@require_POST
+@login_required
+def update_profile_image(request):
+    member = Member.objects.get(user=request.user)
+    image = request.FILES.get('profile_image')
+
+    if image:
+        filename = image.name
+        save_path = os.path.join(settings.MEDIA_ROOT, 'profile_images', filename)
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+        with open(save_path, 'wb+') as f:
+            for chunk in image.chunks():
+                f.write(chunk)
+
+        member.img_url = f'/media/profile_images/{filename}'
+        member.save()
+
+        # 🔥 여기 로그 찍기
+        logger.debug(f"[프로필 업데이트] 저장된 이미지 경로: {member.img_url}")
+        logger.debug(f"[프로필 업데이트] 저장 위치: {save_path}")
+
+    return redirect('profile')
