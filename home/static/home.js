@@ -86,8 +86,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 //날짜 가져오기
-let currentDate = new Date();
-const checkedStatus = {};
+//let currentDate = new Date();
+//const checkedStatus = {};
 
 
 //더미데이터
