@@ -103,21 +103,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
 //더미데이터
 //:고유아이디, 날짜, 시간(null="하루종일"), 제목, 메모(null="메모없음"default됨), 우선순위(null=순위없음-일정 리스트 나열순 고려x) => 리스트에 반영
-const dummySchedules = [
-  { id: 1, date: "2025-06-02", time: "09:00 - 12:00", title: "졸작 보고서", memo: "월요일 회의 예정", priority: 1 },
-  { id: 2, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-  { id: 3, date: "2025-06-03", time: "13:00 - 14:00", title: "빅데이터 과제", memo: "주제 기획", priority: 2 },
-  { id: 4, date: "2025-06-04", time: "하루종일", title: "교양 과제", memo: "기한 회의해보기", priority: null },
-  { id: 5, date: "2025-06-02", time: "13:00 - 15:00", title: "졸작 보고서", memo: "월요일 회의 예정", priority: 2 },
-  { id: 6, date: "2025-06-02", time: "07:00 - 08:00", title: "와와아아작", memo: "메모 없음", priority: null },
-  { id: 7, date: "2025-06-03", time: "13:00 - 14:00", title: "빅데이터 과제", memo: "주제 기획", priority: 2 },
-  { id: 8, date: "2025-06-04", time: "하루종일", title: "교양 과제", memo: "기한 회의해보기", priority: null },
-  { id: 9, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-  { id: 10, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-  { id: 11, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-  { id: 12, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
+//const dummySchedules = [
+//  { id: 1, date: "2025-06-02", time: "09:00 - 12:00", title: "졸작 보고서", memo: "월요일 회의 예정", priority: 1 },
+//  { id: 2, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
+//  { id: 3, date: "2025-06-03", time: "13:00 - 14:00", title: "빅데이터 과제", memo: "주제 기획", priority: 2 },
+//  { id: 4, date: "2025-06-04", time: "하루종일", title: "교양 과제", memo: "기한 회의해보기", priority: null },
+//  { id: 5, date: "2025-06-02", time: "13:00 - 15:00", title: "졸작 보고서", memo: "월요일 회의 예정", priority: 2 },
+//  { id: 6, date: "2025-06-02", time: "07:00 - 08:00", title: "와와아아작", memo: "메모 없음", priority: null },
+//  { id: 7, date: "2025-06-03", time: "13:00 - 14:00", title: "빅데이터 과제", memo: "주제 기획", priority: 2 },
+//  { id: 8, date: "2025-06-04", time: "하루종일", title: "교양 과제", memo: "기한 회의해보기", priority: null },
+//  { id: 9, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
+//  { id: 10, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
+//  { id: 11, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
+//  { id: 12, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
 
-];
+//];
 
 //일정 우선순위에 따른 아이콘(1순위,2순위, 3순위 아이콘)
 const priorityIcons = {
