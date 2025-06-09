@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-SITE_ID = 2
+SITE_ID = 1
 
 # Application definition
 
@@ -102,8 +102,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'schello',
-        'USER': 'root',
-        'PASSWORD': 'yebin2005!',
+        'USER': 'minseo',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -153,7 +153,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS=[ BASE_DIR / "static" ]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # 프로젝트 공통 static 디렉토리
+    BASE_DIR / "home" / "static",  # ← 이 줄을 추가해줘
+]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'

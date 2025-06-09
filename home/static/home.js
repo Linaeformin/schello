@@ -5,85 +5,96 @@ const checkedStatus = {}; //전역 상태저장
 import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/static/bottomSheetHandler.js";
 
 //--------------첫 실행 화면 띄우기----------------------
-window.addEventListener('DOMContentLoaded',() => {
-  const firstScreen=document.querySelector('.first');
 
-  setTimeout(()=>{
-    firstScreen.classList.add('hidden');
-  }, 3000);
-});
 
 
 //--------------------------------화면 띄워졌을때 nav-bar와 바텀 시트 등을 가져오기------------
-window.addEventListener("DOMContentLoaded", async () => {
-  const navRes = await fetch("/static/html/nav-bar.html");
-  const navHtml = await navRes.text();
-  document.querySelector(".home-container").insertAdjacentHTML("beforeend", navHtml);
+window.addEventListener('DOMContentLoaded', () => {
+  const firstScreen = document.querySelector('.first');
 
-  const todoRes = await fetch("/static/html/add-todo-sheet.html");
-  const todoHtml = await todoRes.text();
-  document.querySelector(".home-container").insertAdjacentHTML("beforeend", todoHtml);
+  setTimeout(() => {
+    // 1) 첫 화면 숨기기
+    firstScreen.classList.add('hidden');
 
-  setupBottomSheetEvents();
-  attachEditBtnHandler();
+    // 2) nav-bar와 add-todo-sheet는 이미 home.html에서 {% include %}로 포함됐다고 가정
 
-  const scheduleList = document.querySelector(".nav-icon2");
-  scheduleList.style.opacity= 0.5;
+    // 3) 하위 기능 연결
+    setupBottomSheetEvents();
+    attachEditBtnHandler();
 
-  const form = document.getElementById("todoForm");
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const titleInput = document.getElementById("todo");
-    const title = titleInput.value.trim();
-    if (!title) {
-      titleInput.value = "";
-      titleInput.placeholder = "제목은 필수 입력입니다";
-      titleInput.classList.add("required-placeholder");
-      return;
-    }
-    titleInput.addEventListener("input", () => {
-      if (titleInput.classList.contains("required-placeholder")) {
-        titleInput.classList.remove("required-placeholder");
-        titleInput.placeholder = "일정 제목";  // 원래 placeholder로 복원
-      }
-    });
-
-    const memo = document.getElementById("memo").value;
-    const year = document.getElementById("year").value;
-    const month = document.getElementById("month").value;
-    const day = document.getElementById("day").value;
-    const date = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-    const sh = document.getElementById("start-hour").value;
-    const sm = document.getElementById("start-minute").value;
-    const eh = document.getElementById("end-hour").value;
-    const em = document.getElementById("end-minute").value;
-    const timeChecked = document.getElementById("time").checked;
-    const time = timeChecked && sh && eh ? `${sh}:${sm}-${eh}:${em}` : "하루종일";
-    const priorityChecked = document.getElementById("priority").checked;
-    const pr = document.querySelector("input[name='priority-radio']:checked");
-    const priority = priorityChecked && pr ? parseInt(pr.value) : null;
-
-
-    if (window.editingScheduleId !== null) {
-      const target = dummySchedules.find(s => s.id === window.editingScheduleId);
-      if (target) {
-        target.title = title || target.title;
-        target.memo = memo || target.memo;
-        target.date = date;
-        target.time = time;
-        target.priority = priority;
-      }
-    } else {
-      const newId = dummySchedules.length ? Math.max(...dummySchedules.map(s => s.id)) + 1 : 1;
-      dummySchedules.push({ id: newId, title, memo, date, time, priority });
+    const scheduleList = document.querySelector(".nav-icon2");
+    if (scheduleList) {
+      scheduleList.style.opacity = 0.5;
     }
 
-    renderSchedules(date);
-    closeBottomSheet();
-    document.getElementById("todoForm").reset();
-    window.editingScheduleId = null;
-  });
+    const form = document.getElementById("todoForm");
+    if (form) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const titleInput = document.getElementById("todo");
+        const title = titleInput.value.trim();
+        if (!title) {
+          titleInput.value = "";
+          titleInput.placeholder = "제목은 필수 입력입니다";
+          titleInput.classList.add("required-placeholder");
+          return;
+        }
+        titleInput.addEventListener("input", () => {
+          if (titleInput.classList.contains("required-placeholder")) {
+            titleInput.classList.remove("required-placeholder");
+            titleInput.placeholder = "일정 제목";
+          }
+        });
+
+        const memo = document.getElementById("memo").value;
+        const year = document.getElementById("year").value;
+        const month = document.getElementById("month").value;
+        const day = document.getElementById("day").value;
+        const date = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const sh = document.getElementById("start-hour").value;
+        const sm = document.getElementById("start-minute").value;
+        const eh = document.getElementById("end-hour").value;
+        const em = document.getElementById("end-minute").value;
+        const timeChecked = document.getElementById("time").checked;
+        const time = timeChecked && sh && eh ? `${sh}:${sm}-${eh}:${em}` : "하루종일";
+        const priorityChecked = document.getElementById("priority").checked;
+        const pr = document.querySelector("input[name='priority-radio']:checked");
+        const priority = priorityChecked && pr ? parseInt(pr.value) : null;
+
+        if (window.editingScheduleId !== null) {
+          const target = dummySchedules.find(s => s.id === window.editingScheduleId);
+          if (target) {
+            target.title = title || target.title;
+            target.memo = memo || target.memo;
+            target.date = date;
+            target.time = time;
+            target.priority = priority;
+          }
+        } else {
+          const newId = dummySchedules.length ? Math.max(...dummySchedules.map(s => s.id)) + 1 : 1;
+          dummySchedules.push({ id: newId, title, memo, date, time, priority });
+        }
+
+        renderSchedules(date);
+        closeBottomSheet();
+        document.getElementById("todoForm").reset();
+        window.editingScheduleId = null;
+      });
+    }
+
+    // 4) 캘린더 렌더링 및 드래그 이벤트
+    renderCalendar(currentDate);
+
+    const todayBox = document.querySelector(".day-box.today");
+    if (todayBox) {
+      todayBox.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }
+
+    setupHorizontalDrag(document.querySelector(".week-calendar"));
+    setupVerticalDrag(document.querySelector(".schedule-list"));
+  }, 3000);
 });
+
 
 //날짜 가져오기
 //let currentDate = new Date();
