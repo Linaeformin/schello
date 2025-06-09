@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-SITE_ID = 1
+SITE_ID = 2
 
 # Application definition
 
@@ -102,8 +102,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'schello',
-        'USER': 'minseo',
-        'PASSWORD': '1234',
+        'USER': 'root',
+        'PASSWORD': 'yebin2005!',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -152,7 +152,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS=[ BASE_DIR / "static" ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -172,10 +172,6 @@ ACCOUNT_LOGOUT_ON_GET = True
 
 # 로그아웃 성공 후 반환 URL
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/kakao/login/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # 루트 static 폴더만 등록!
-]
 
 # allauth에서 이메일 가져오지 않게 설정
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']

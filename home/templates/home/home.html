@@ -5,25 +5,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=375, initial-scale=1.0" />
     <title>홈 - Sche:llo</title>
-    <link rel="stylesheet" href="/static/main.css" />
-    <link rel="stylesheet" href="/home/static/home.css" />
-    <link rel="stylesheet" href="/static/navbar.css" />
-    <link rel="stylesheet" href="/schedules/static/schedules/todo.css" />
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
+    <link rel="stylesheet" href="{% static 'home.css' %}" />
+    <link rel="stylesheet" href="{% static 'navbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'schedules/todo.css' %}" />
   </head>
   <body>
-    <div id="root">
-      
-      <!-- 첫 실행 화면 -->
-      <div class="first">
-        <div class="app-wrapper">
-          <div class="first-wrapper"></div>
-          <img
-            src="/home/static/images/logo.png"
-            alt="Schello 로고"
-            class="schello-logo"
-          />
-        </div>
+  <div id="root">
+
+    <!-- 첫 실행 화면 -->
+     <div class="first">
+      <div class="app-wrapper">
+        <div class="first-wrapper"></div>
+        <img src="{% static 'images/logo.png' %}"
+             alt="Schello 로고"
+             class="schello-logo" />
       </div>
+    </div>
 
       <!--메인화면-->
       <div class="app-wrapper">
@@ -57,7 +55,6 @@
         </div>
       </div>
     </div>
-
-    <script type="module" src="/home/static/home.js"></script>
+    <script type="module" src="{% static 'home.js' %}"></script>
   </body>
 </html>

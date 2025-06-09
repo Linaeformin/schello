@@ -16,11 +16,11 @@ window.addEventListener('DOMContentLoaded',() => {
 
 //--------------------------------화면 띄워졌을때 nav-bar와 바텀 시트 등을 가져오기------------
 window.addEventListener("DOMContentLoaded", async () => {
-  const navRes = await fetch("/templates/nav-bar.html");
+  const navRes = await fetch("/static/html/nav-bar.html");
   const navHtml = await navRes.text();
   document.querySelector(".home-container").insertAdjacentHTML("beforeend", navHtml);
 
-  const todoRes = await fetch("/schedules/templates/schedules/add-todo-sheet.html");
+  const todoRes = await fetch("/static/html/add-todo-sheet.html");
   const todoHtml = await todoRes.text();
   document.querySelector(".home-container").insertAdjacentHTML("beforeend", todoHtml);
 
@@ -86,8 +86,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 });
 
 //날짜 가져오기
-let currentDate = new Date();
-const checkedStatus = {};
+//let currentDate = new Date();
+//const checkedStatus = {};
 
 
 //더미데이터
@@ -110,9 +110,9 @@ const dummySchedules = [
 
 //일정 우선순위에 따른 아이콘(1순위,2순위, 3순위 아이콘)
 const priorityIcons = {
-  1: "/home/static/images/prio1.svg",
-  2: "/home/static/images/prio2.svg",
-  3: "/home/static/images/prio3.svg"
+  1: "/static/images/prio1.svg",
+  2: "/static/images/prio2.svg",
+  3: "/static/images/prio3.svg"
 };
 
 //캘린더-------------------

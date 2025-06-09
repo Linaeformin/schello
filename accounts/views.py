@@ -28,7 +28,7 @@ def home(request):
         'extra_data': extra_data,
     }
 
-    return render(request, 'base.html', context)
+    return render(request, '../static/html/../templates/base.html', context)
 
 
 # 로그아웃
