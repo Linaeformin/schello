@@ -33,6 +33,7 @@ def home_view(request):
     return render(request, 'home/home.html', {
         'schedules_json': json.dumps(data, ensure_ascii=False)
     })
+
 @login_required
 @require_http_methods(["DELETE"])
 def delete_schedule_api(request, schedule_id):
