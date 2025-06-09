@@ -78,38 +78,35 @@ def schedule_create_api(request):
     except Exception as e:
         return JsonResponse({'error': f'일정 추가 실패: {str(e)}'}, status=500)
 
-@require_GET
+
 @login_required
-def schedule_list_api(request):
-    date_str = request.GET.get('date')
-
-    if not date_str:
-        return JsonResponse({'error': '날짜 파라미터가 필요합니다.'}, status=400) # 400 Bad Request
-
+@require_http_methods(["GET"])
+def get_schedule_api(request):
     try:
+        # 요청에서 'date' 파라미터를 가져오고, 없으면 오늘 날짜를 기본값으로 사용
+        date_str = request.GET.get('date', datetime.today().strftime('%Y-%m-%d'))
+
+        # 날짜 문자열을 datetime 객체로 변환
         selected_date = datetime.strptime(date_str, '%Y-%m-%d').date()
-    except ValueError:
-        return JsonResponse({'error': '유효하지 않은 날짜 형식입니다. YYYY-MM-DD 형식이어야 합니다.'}, status=400)
 
-    try:
-        schedules = Schedule.objects.filter(
-            user=request.user,
-            date=selected_date
-        ).order_by('priority', 'start')
+        # 현재 로그인된 사용자의 해당 날짜 일정만 필터링
+        schedules = Schedule.objects.filter(user=request.user, date=selected_date).order_by('priority', 'start_time')
 
-        data = []
+        # 일정 데이터를 JSON 형태로 직렬화
+        schedule_data = []
         for schedule in schedules:
-            data.append({
+            schedule_data.append({
                 'id': schedule.id,
-                'date': schedule.date.isoformat(),
-                'start': schedule.start.strftime('%H:%M') if schedule.start else None,
-                'end': schedule.end.strftime('%H:%M') if schedule.end else None,
                 'title': schedule.title,
-                'memo': schedule.memo if schedule.memo else '메모 없음',
+                'memo': schedule.memo,
+                'date': schedule.date.strftime('%Y-%m-%d'),
+                'start_time': schedule.start_time.strftime('%H:%M') if schedule.start_time else None,
+                'end_time': schedule.end_time.strftime('%H:%M') if schedule.end_time else None,
                 'priority': schedule.priority,
             })
-        return JsonResponse(data, safe=False)
-
+        return JsonResponse(schedule_data, safe=False)
+    except ValueError:
+        return JsonResponse({'error': '유효하지 않은 날짜 형식입니다. YYYY-MM-DD 형식으로 보내주세요.'}, status=400)
     except Exception as e:
         return JsonResponse({'error': f'일정 불러오기 실패: {str(e)}'}, status=500)
 
