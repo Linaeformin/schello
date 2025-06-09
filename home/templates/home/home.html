@@ -57,6 +57,12 @@
     </div>
   </div>
 
-  <script type="module" src="{% static 'home.js' %}"></script>
+<!-- home.html -->
+<script>
+  const dummySchedules = {{ schedules_json|safe }};
+</script>
+
+<script type="module" src="{% static 'home.js' %}"></script>
+
 </body>
 </html>

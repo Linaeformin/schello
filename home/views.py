@@ -3,39 +3,36 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from schedules.models import Schedule
 from django.contrib.auth.decorators import login_required
+import json
 from datetime import datetime
 
 @login_required
 def home_view(request):
-    return render(request, 'home/home.html')
+    schedules = Schedule.objects.filter(user=request.user).order_by('date', 'priority', 'start')
 
-@login_required
-def get_schedule_api(request):
-    selected_date_str = request.GET.get('date')
+    data = []
+    for s in schedules:
+        if s.start and s.end:
+            time = f"{s.start.strftime('%H:%M')} - {s.end.strftime('%H:%M')}"
+        elif s.start:
+            time = f"{s.start.strftime('%H:%M')} ~"
+        elif s.end:
+            time = f"~ {s.end.strftime('%H:%M')}"
+        else:
+            time = "하루종일"
 
-    if not selected_date_str:
-        return JsonResponse({'error': '데이터 파라미터 없음'}, status=400)
-
-    try:
-        selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
-    except ValueError:
-        return JsonResponse({'error': '날짜 형식 오류, 필요 형식: YYYY-MM-DD'}, status=400)
-
-    schedules = Schedule.objects.filter(user=request.user, date=selected_date).order_by('priority', 'start')
-
-    schedule_data = []
-    for schedule in schedules:
-        schedule_data.append({
-            'id': schedule.id,
-            'date': schedule.date.isoformat(),
-            'time': f"{schedule.start.strftime('%H:%M')} - {schedule.end.strftime('%H:%M')}" if schedule.start and schedule.end else "",
-            'title': schedule.title,
-            'memo': schedule.memo,
-            'priority': schedule.priority,
+        data.append({
+            "id": s.id,
+            "date": s.date.strftime('%Y-%m-%d'),
+            "title": s.title,
+            "memo": s.memo or "메모 없음",
+            "time": time,
+            "priority": s.priority,
         })
 
-    return JsonResponse(schedule_data, safe=False)
-
+    return render(request, 'home/home.html', {
+        'schedules_json': json.dumps(data, ensure_ascii=False)
+    })
 @login_required
 @require_http_methods(["DELETE"])
 def delete_schedule_api(request, schedule_id):
