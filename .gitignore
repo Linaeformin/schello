@@ -19,7 +19,7 @@ db.sqlite3
 .env
 
 # media 전체 무시
-/media/
+/media/*
 
 # 예외적으로 기본 프로필 이미지만 추적
 !/media/profile_images/
