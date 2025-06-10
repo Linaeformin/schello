@@ -92,7 +92,6 @@ export function closeBottomSheet() {
   window.editingScheduleId = null;
 
 }
-//
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".nav-item").forEach((btn) => {
@@ -103,24 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
-  const currentPath = window.location.pathname;
-
-  if (currentPath === "/accounts/profile") {
-    const homeIcon = document.querySelector(".home-button");
-    const profileIcon = document.querySelector(".profile-button");
-
-    if (homeIcon) {
-      homeIcon.src = "/static/images/home_inprofile.png";
-    }
-
-    if (profileIcon) {
-      profileIcon.src = "/static/images/profile_inprofile.png";
-    }
-  }
-
-
 });
+
 
 
 

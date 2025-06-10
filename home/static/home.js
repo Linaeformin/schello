@@ -4,11 +4,18 @@ const checkedStatus = {}; //전역 상태저장
 
 import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/static/bottomSheetHandler.js";
 
+//--------------첫 실행 화면 띄우기----------------------
 
 
 
 //--------------------------------화면 띄워졌을때 nav-bar와 바텀 시트 등을 가져오기------------
 window.addEventListener('DOMContentLoaded', () => {
+  const firstScreen = document.querySelector('.first');
+
+  setTimeout(() => {
+    // 1) 첫 화면 숨기기
+    firstScreen.classList.add('hidden');
+
     // 2) nav-bar와 add-todo-sheet는 이미 home.html에서 {% include %}로 포함됐다고 가정
 
     // 3) 하위 기능 연결
@@ -87,7 +94,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     setupHorizontalDrag(document.querySelector(".week-calendar"));
     setupVerticalDrag(document.querySelector(".schedule-list"));
-  
+  }, 3000);
 });
 
 
