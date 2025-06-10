@@ -31,7 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-SITE_ID = 2
+SITE_ID = 1
 
 # Application definition
 
@@ -102,8 +102,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'schello',
-        'USER': 'root',
-        'PASSWORD': 'yebin2005!',
+        'USER': 'minseo',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '3306',
     }
