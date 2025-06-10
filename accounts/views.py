@@ -80,3 +80,6 @@ def update_profile_image(request):
         logger.debug(f"[프로필 업데이트] 저장 위치: {save_path}")
 
     return redirect('profile')
+
+def splash_view(request):
+    return render(request, 'splash_screen.html')

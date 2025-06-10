@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from accounts.views import home
+from accounts.views import splash_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +32,9 @@ urlpatterns = [
     path('schedules/', include('schedules.urls')),
 
     path('accounts/', include('accounts.urls')),
+
+    # 스플래시 화면
+    path('', splash_view, name='splash')
 ]
 
 if settings.DEBUG:
