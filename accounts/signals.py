@@ -28,9 +28,8 @@ def create_member(sender, request, user, **kwargs):
 # 2. 소셜 계정 연결된 직후 → profile_image_url 확실히 가져와서 Member 업데이트
 @receiver(user_logged_in)
 def update_profile_image_on_login(request, user, **kwargs):
-
     try:
-        social_account = SocialAccount.objects.filter(user = user).first()
+        social_account = SocialAccount.objects.filter(user=user).first()
         if not social_account:
             return
 
@@ -41,13 +40,15 @@ def update_profile_image_on_login(request, user, **kwargs):
             .get('thumbnail_image_url', '')
         )
 
-        member, created = Member.objects.get_or_create(user = user)
-        member.img_url = profile_img_url
-        member.save()
+        member, created = Member.objects.get_or_create(user=user)
+
+        # 🔒 수동 업로드한 이미지가 없을 때만 업데이트
+        if not member.img_url or not member.img_url.startswith('/media/profile_images/'):
+            member.img_url = profile_img_url
+            member.save()
 
     except Exception as e:
         print("시그널 오류:", e)
-
 
 
 
