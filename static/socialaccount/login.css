@@ -4,7 +4,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 341px 21px 94px 21px;
+        padding: 342px 21px 148px 21px;
         box-sizing: border-box;
         text-align: center;
     }
@@ -12,7 +12,7 @@
     .logo-img {
         width: 155px;
         height: 127px;
-        margin-bottom: 204px;
+        margin-bottom: 150px;
     }
 
     .kakao-btn {
