@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
+{% load static %}
   <head>
     <title>홈</title>
-    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
   </head>
   <body>
     <h1>환영합니다, {{ user.username }}!</h1>
@@ -11,6 +12,7 @@
     <pre>
         {{ extra_data|safe }}
     </pre>
+  <script src="{% static 'bottomSheetHandler.js' %}" defer></script>
   </body>
   <div id="root">
     <div class="app-wrapper"></div>

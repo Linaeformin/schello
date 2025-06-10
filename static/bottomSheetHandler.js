@@ -92,3 +92,20 @@ export function closeBottomSheet() {
   window.editingScheduleId = null;
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".nav-item").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const path = e.currentTarget.dataset.url;
+      if (path) {
+        window.location.href = path;
+      }
+    });
+  });
+});
+
+
+
+
+
+
