@@ -60,6 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const priorityChecked = document.getElementById("priority").checked;
         const pr = document.querySelector("input[name='priority-radio']:checked");
         const priority = priorityChecked && pr ? parseInt(pr.value) : null;
+        const is_checked = document.getElementById("is-checked").checked; // 체크 필드 추가
 
         if (window.editingScheduleId !== null) {
           const target = dummySchedules.find(s => s.id === window.editingScheduleId);
@@ -69,10 +70,11 @@ window.addEventListener('DOMContentLoaded', () => {
             target.date = date;
             target.time = time;
             target.priority = priority;
+            target.is_checked = is_checked; // 체크 필드 추가
           }
         } else {
           const newId = dummySchedules.length ? Math.max(...dummySchedules.map(s => s.id)) + 1 : 1;
-          dummySchedules.push({ id: newId, title, memo, date, time, priority });
+          dummySchedules.push({ id: newId, title, memo, date, time, priority, is_checked });
         }
 
         renderSchedules(date);
@@ -233,15 +235,15 @@ schedules.sort((a, b) => {
   schedules.forEach(item => {
     const card = document.createElement("div");
     const iconHtml = item.priority && priorityIcons[item.priority]
-      ? `<img src="${priorityIcons[item.priority]}" class="priority-icon" alt="우선순위 ${item.priority}">`
-      : "";
+        ? `<img src="${priorityIcons[item.priority]}" class="priority-icon" alt="우선순위 ${item.priority}">`
+        : "";
 
     card.className = "schedule-card";
     card.innerHTML = `
       <div class = "schedule-left">
         <div class="prior-icon">${iconHtml}</div>
         <div class="schedule-checkbox">
-          <input type="checkbox" class="check-task" data-id="${item.id}">
+          <input type="checkbox" class="check-task" data-id="${item.id}" ${item.is_checked ? "checked" : ""}>
           <span class="checkmark"></span>
         </div>
       </div>
@@ -260,21 +262,30 @@ schedules.sort((a, b) => {
     scheduleList.appendChild(card);
     const checkbox = card.querySelector(".check-task");
     const title = card.querySelector(".schedule-title");
-    const isChecked = checkedStatus[item.id] || false;
-    checkbox.checked = isChecked;
-    title.style.color = isChecked ? "var(--gray-50)" : "var(--gray-80)";
-    title.style.textDecoration = isChecked ? "line-through" : "none";
+
+    // 초기 렌더링 시 is_checked 상태 반영
+    title.style.color = item.is_checked ? "var(--gray-50)" : "var(--gray-80)";
+    title.style.textDecoration = item.is_checked ? "line-through" : "none";
   });
 
+    //const isChecked = checkedStatus[item.id] || false;
+    //checkbox.checked = isChecked;
+
+  // 이벤트 리스너를 개별 체크박스에 추가
   document.querySelectorAll(".schedule-checkbox").forEach(box => {
     const checkbox = box.querySelector(".check-task");
     const title = box.closest(".schedule-card").querySelector(".schedule-title");
+
     box.addEventListener("click", (e) => {
-      e.preventDefault();
-      checkbox.checked = !checkbox.checked;
-      checkedStatus[checkbox.dataset.id] = checkbox.checked;
-      title.style.color = checkbox.checked ? "var(--gray-50)" : "var(--gray-80)";
-      title.style.textDecoration = checkbox.checked ? "line-through" : "none";
+      e.preventDefault(); // 기본 체크박스 동작 방지
+      const newCheckedState = !checkbox.checked; // 새로운 상태
+      checkbox.checked = newCheckedState; // UI 업데이트
+
+      // UI 스타일 업데이트
+      title.style.color = newCheckedState ? "var(--gray-50)" : "var(--gray-80)";
+      title.style.textDecoration = newCheckedState ? "line-through" : "none";
+
+      updateScheduleCheckedStatus(checkbox.dataset.id, newCheckedState);
     });
   });
 
@@ -289,6 +300,66 @@ schedules.sort((a, b) => {
     });
   });
 }
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+async function updateScheduleCheckedStatus(scheduleId, isChecked) {
+    try {
+        const response = await fetch(`/schedules/${scheduleId}/update_checked_status/`, {
+            method: 'POST', // POST 또는 PATCH 사용 권장
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') // CSRF 토큰 전송
+            },
+            body: JSON.stringify({ is_checked: isChecked })
+        });
+
+        if (!response.ok) {
+            // 에러 발생 시 UI를 원래 상태로 되돌리거나 사용자에게 알림
+            const errorData = await response.json();
+            console.error('백엔드 업데이트 실패:', errorData.message);
+            // UI를 원래 상태로 되돌리는 로직 (예: 해당 체크박스를 다시 원래 상태로)
+            const checkbox = document.querySelector(`.check-task[data-id="${scheduleId}"]`);
+            if (checkbox) {
+                checkbox.checked = !isChecked; // 원래 상태로 되돌림
+                const title = checkbox.closest(".schedule-card").querySelector(".schedule-title");
+                title.style.color = !isChecked ? "var(--gray-50)" : "var(--gray-80)";
+                title.style.textDecoration = !isChecked ? "line-through" : "none";
+            }
+            alert(`일정 상태 업데이트 실패: ${errorData.message}`);
+            return;
+        }
+
+        const data = await response.json();
+        console.log('백엔드 업데이트 성공:', data);
+
+    } catch (error) {
+        console.error('네트워크 또는 기타 오류:', error);
+        alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+        // UI를 원래 상태로 되돌리는 로직
+        const checkbox = document.querySelector(`.check-task[data-id="${scheduleId}"]`);
+        if (checkbox) {
+            checkbox.checked = !isChecked;
+            const title = checkbox.closest(".schedule-card").querySelector(".schedule-title");
+            title.style.color = !isChecked ? "var(--gray-50)" : "var(--gray-80)";
+            title.style.textDecoration = !isChecked ? "line-through" : "none";
+        }
+    }
+}
+
 
 //캘린더 이전달과 다음달----------------------------
 document.getElementById("prev-month").addEventListener("click", () => {

@@ -11,6 +11,7 @@ class ScheduleForm(forms.ModelForm):
             "start",
             "end",
             "priority",
+            "is_checked",
         ]
 
         # 폼 필드 타입 설정
@@ -19,4 +20,5 @@ class ScheduleForm(forms.ModelForm):
             'start': forms.DateTimeInput(attrs={'type': 'time'}),
             'end': forms.DateTimeInput(attrs={'type': 'time'}),
             'memo': forms.Textarea(attrs={'rows': 3}),
+            'is_checked': forms.CheckboxInput(attrs={'type': 'checkbox'}),
         }

@@ -20,6 +20,8 @@ const todoForm = document.getElementById('todoForm');
             const priorityRadio = document.querySelector('input[name="priority-radio"]:checked');
             const priority = priorityRadio ? priorityRadio.value : null;
 
+            const is_checked = document.getElementById('is-checked').checked; //체크 필드 추가
+
             //값이 들어있는 todoData 객체
             const todoData = {
                 todo,
@@ -27,7 +29,8 @@ const todoForm = document.getElementById('todoForm');
                 date: `${year}-${month}-${day}`,
                 startTime: `${startHour}:${startMinute}`,
                 endTime: `${endHour}:${endMinute}`,
-                priority
+                priority,
+                is_checked,
             };
 
             localStorage.setItem('todoData', JSON.stringify(todoData));

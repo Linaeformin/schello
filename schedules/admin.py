@@ -12,6 +12,7 @@ class ScheduleAdmin(admin.ModelAdmin):
         'user',
         'priority',
         'memo',
+        'is_checked',
     ]
 
     def formfield_for_dbfield(self, db_field, **kwargs):

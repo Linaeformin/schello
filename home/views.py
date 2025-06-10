@@ -28,17 +28,9 @@ def home_view(request):
             "memo": s.memo or "메모 없음",
             "time": time,
             "priority": s.priority,
+            "is_checked": s.is_checked,
         })
 
     return render(request, 'home/home.html', {
         'schedules_json': json.dumps(data, ensure_ascii=False)
     })
-@login_required
-@require_http_methods(["DELETE"])
-def delete_schedule_api(request, schedule_id):
-    try:
-        schedule = get_object_or_404(Schedule, id=schedule_id, user=request.user)
-        schedule.delete()
-        return JsonResponse({'message': '일정 삭제 성공'})
-    except Exception as e:
-        return JsonResponse({'일정 삭제 실패': str(e)}, status=400)

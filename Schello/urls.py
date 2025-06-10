@@ -27,8 +27,8 @@ urlpatterns = [
     # 홈 화면
     path('home/', include('home.urls')),
 
-    # 일정 추가 화면
-    path('add_todo/', include('schedules.urls')),
+    # 일정 관리 화면
+    path('schedules/', include('schedules.urls')),
 
     path('accounts/', include('accounts.urls')),
 ]

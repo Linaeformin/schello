@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('api/schedules/', views.get_schedule_api, name='get_schedule_api'),
-    path('api/schedules/create/', views.schedule_create_api, name='schedule_create_api'),
-    path('api/schedules/<int:schedule_id>/delete/', views.schedule_delete_api, name='schedule_delete_api'),
-    path('api/schedules/<int:schedule_id>/update/', views.schedule_update_api, name='schedule_update_api'),
+    path('<int:pk>/update_checked_status/', views.schedule_update_checked_status,
+         name='schedule_update_checked_status'),
 ]
