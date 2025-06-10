@@ -28,6 +28,7 @@ def home_view(request):
             "memo": s.memo or "메모 없음",
             "time": time,
             "priority": s.priority,
+            "is_checked": s.is_checked,
         })
 
     return render(request, 'home/home.html', {
