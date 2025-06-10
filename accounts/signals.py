@@ -33,22 +33,28 @@ def update_profile_image_on_login(request, user, **kwargs):
         if not social_account:
             return
 
-        extra_data = social_account.extra_data
         profile_img_url = (
-            extra_data.get('kakao_account', {})
+            social_account.extra_data
+            .get('kakao_account', {})
             .get('profile', {})
             .get('thumbnail_image_url', '')
         )
 
-        member, created = Member.objects.get_or_create(user=user)
+        member, _ = Member.objects.get_or_create(user=user)
 
-        # 🔒 수동 업로드한 이미지가 없을 때만 업데이트
         if not member.img_url or not member.img_url.startswith('/media/profile_images/'):
-            member.img_url = profile_img_url
+            if 'default_profile.jpeg' in profile_img_url:
+                # 우리 기본 이미지로 대체
+                member.img_url = '/media/profile_images/default.png'
+            else:
+                # 카카오에서 받아온 이미지로 사용
+                member.img_url = profile_img_url
+
             member.save()
 
     except Exception as e:
         print("시그널 오류:", e)
+
 
 
 

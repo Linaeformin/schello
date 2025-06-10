@@ -12,11 +12,19 @@ __pycache__/
 *.db
 *.sqlite3
 *.sqlite3-journal
-media/
+Schello/settings.py
 staticfiles/
 local_settings.py
 db.sqlite3
 .env
+
+# media 전체 무시
+/media/
+
+# 예외적으로 기본 프로필 이미지만 추적
+!/media/profile_images/
+!/media/profile_images/default.png
+
 
 # Virtualenv
 env/
@@ -48,3 +56,5 @@ htmlcov/
 
 # JetBrains IDE
 .idea/
+
+
