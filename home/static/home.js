@@ -16,11 +16,11 @@ window.addEventListener('DOMContentLoaded', () => {
     // 3) 하위 기능 연결
     setupBottomSheetEvents();
     attachEditBtnHandler();
-
-    const scheduleList = document.querySelector(".nav-icon2");
-    if (scheduleList) {
-      scheduleList.style.opacity = 0.5;
-    }
+    //
+    // const scheduleList = document.querySelector(".nav-icon2");
+    // if (scheduleList) {
+    //   scheduleList.style.opacity = 0.5;
+    // }
 
     const form = document.getElementById("todoForm");
     if (form) {

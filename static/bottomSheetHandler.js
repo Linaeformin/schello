@@ -103,23 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const currentPath = window.location.pathname;
-
-  //프로필 페이지로 이동한 경우, nav-bar의 아이콘 사진 변경
-  if (currentPath === "/accounts/profile") {
-    const homeIcon = document.querySelector(".home-button");
-    const profileIcon = document.querySelector(".profile-button");
-
-    if (homeIcon) {
-      homeIcon.src = "/static/images/home_inprofile.png";
-    }
-
-    if (profileIcon) {
-      profileIcon.src = "/static/images/profile_inprofile.png";
-    }
-  }
-
-
 });
 
 
