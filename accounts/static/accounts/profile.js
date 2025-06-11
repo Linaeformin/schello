@@ -4,8 +4,6 @@ import { setupBottomSheetEvents, openBottomSheet } from "/static/bottomSheetHand
 const editBtn = document.getElementById('editBtn');
 const fileInput = document.getElementById('fileInput');
 const profileImage = document.getElementById('profileImage');
-const homeIcon = document.querySelector(".home-button");
-const profileIcon =document.querySelector(".profile-button");
 
 setupBottomSheetEvents();
 
