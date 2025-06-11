@@ -474,7 +474,7 @@ function openConfirmModal(message, onConfirm) {
   modal.querySelector("p").textContent = message;
   overlay.classList.remove("hidden");
   modal.classList.remove("hidden");
-  const cancelBtn = modal.querySelector(".cancel-btn");
+  const cancelBtn = modal.querySelector(".cancel-btn2");
   const confirmBtn = modal.querySelector(".confirm-delete-btn");
   const close = () => {
     overlay.classList.add("hidden");
@@ -485,6 +485,7 @@ function openConfirmModal(message, onConfirm) {
   cancelBtn.onclick = close;
   confirmBtn.onclick = () => { onConfirm(); close(); };
 }
+
 
 document.addEventListener("click", (e) => {
   const isMoreBtn = e.target.closest(".more-btn");
