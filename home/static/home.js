@@ -487,6 +487,51 @@ function openConfirmModal(message, onConfirm) {
   confirmBtn.onclick = () => { onConfirm(); close(); };
 }
 
+document.addEventListener("click", (e) => {
+  const isMoreBtn = e.target.closest(".more-btn");
+  const isToolbar = e.target.closest(".toolbar");
+
+  if (isMoreBtn) {
+    const currentCard = isMoreBtn.closest(".schedule-card");
+    const thisToolbar = currentCard.querySelector(".toolbar");
+    const isOpen = !thisToolbar.classList.contains("hidden");
+    document.querySelectorAll(".toolbar").forEach(t => t.classList.add("hidden"));
+    if (!isOpen) thisToolbar.classList.remove("hidden");
+    return;
+  }
+
+  if (!isToolbar) {
+    document.querySelectorAll(".toolbar").forEach(t => t.classList.add("hidden"));
+  }
+
+  if (e.target.classList.contains("delete-btn")) {
+    const card = e.target.closest(".schedule-card");
+    const id = parseInt(card.querySelector(".check-task").dataset.id);
+
+    openConfirmModal("일정을 삭제할까요?", async () => {
+      try {
+        const response = await fetch(`/home/${id}/delete/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+          }
+        });
+
+        if (response.ok) {
+          window.location.reload();  // 성공 시 새로고침
+        } else {
+          alert("삭제 실패: 서버에서 오류가 발생했습니다.");
+        }
+      } catch (error) {
+        console.error("삭제 요청 실패:", error);
+        alert("삭제 중 오류가 발생했습니다.");
+      }
+    });
+  }
+});
+
+
+
 
 
 //일정 수정 바텀시트를 위한 일정 추가 재사용

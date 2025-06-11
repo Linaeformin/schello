@@ -4,6 +4,7 @@ from django.views.decorators.http import require_http_methods
 from schedules.models import Schedule
 from django.contrib.auth.decorators import login_required
 import json
+from django.shortcuts import redirect
 from datetime import datetime
 
 @login_required
@@ -36,11 +37,27 @@ def home_view(request):
     })
 
 @login_required
-@require_http_methods(["DELETE"])
-def delete_schedule_api(request, schedule_id):
+@require_http_methods(["POST"])
+def delete(request, schedule_id):
+    print(f"\n[삭제 요청] schedule_id={schedule_id}")
+    print(f"[요청 유저] {request.user} (id={request.user.id})")
+
     try:
-        schedule = get_object_or_404(Schedule, id=schedule_id, user=request.user)
+        schedule = get_object_or_404(Schedule, id=schedule_id)
+        print(f"[일정 유저] {schedule.user} (id={schedule.user.id})")
+
+        if schedule.user != request.user:
+            print("❌ 유저 불일치: 삭제 거부")
+            return HttpResponse("유저 불일치", status=403)
+
         schedule.delete()
-        return JsonResponse({'message': '일정 삭제 성공'})
+        print("✅ 삭제 완료")
+        return HttpResponse(status=204)
+
     except Exception as e:
-        return JsonResponse({'일정 삭제 실패': str(e)}, status=400)
+        print("❌ 예외 발생:", e)
+        return HttpResponse(status=500)
+
+
+
+
