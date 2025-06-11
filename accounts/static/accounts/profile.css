@@ -1,10 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-* {
+
+*{
     box-sizing: border-box;
-    font-family: "Inter";
+    font-family: "Inter", sans-serif;
 }
 
+p {
+  font-family: "Inter", sans-serif;
+}
 .profile-container {
     width: 375px;
     height: 100%;
@@ -17,7 +21,7 @@
     box-sizing: border-box;
 }
 
-/*브라우저 기본 컬러와 구분하기 위해 일단 배경색을 다른 색으로 지정함*/
+
 header{
     width:375px;
     height:44px; 
@@ -70,17 +74,15 @@ header{
     height: 51px;
 }
 .user-name{
-    font-family: 'Poppins';
     font-size: 20px;
-    font-weight: 600px;
+    font-weight: 600;
     line-height: 100%;
     color:#000000;
     margin: 0px;
 }
 .user-email{
-    font-family: 'Poppins';
     font-size: 12px;
-    font-weight: 400px;
+    font-weight: 400;
     line-height: 160%;
     color:#828282;
     margin-top:0px;
@@ -212,6 +214,3 @@ header{
     padding:0;
     cursor:pointer;
 }
-
-/*하단 nav-bar*/
-/*navbar.css*/
