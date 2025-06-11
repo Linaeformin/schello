@@ -136,3 +136,81 @@ def add_schedule_view(request):
             'day': today.day,
         }
         return render(request, 'components/add-todo-sheet.html', {'initial_data': initial_data})
+
+
+def edit_schedule_view(request, pk):
+    schedule = get_object_or_404(Schedule, pk=pk, user=request.user)
+
+    if request.method == 'POST':
+        title = request.POST.get('todo')
+        memo = request.POST.get('memo', '')
+
+        year = request.POST.get('year')
+        month = request.POST.get('month')
+        day = request.POST.get('day')
+
+        start_hour_str = request.POST.get('start-hour')
+        start_minute_str = request.POST.get('start-minute')
+        end_hour_str = request.POST.get('end-hour')
+        end_minute_str = request.POST.get('end-minute')
+
+        priority_str = request.POST.get('priority-radio')
+        priority = int(priority_str) if priority_str else None
+
+        if not all([title, year, month, day]):
+            return render(request, 'components/edit-todo-sheet.html', {
+                'schedule': schedule, # 현재 일정 데이터를 다시 전달
+                'error_message': '필수 필드를 모두 입력해주세요.'
+            })
+
+        try:
+            schedule_date = date(int(year), int(month), int(day))
+
+            start_time = None
+            if start_hour_str and start_minute_str:
+                start_time = time(int(start_hour_str), int(start_minute_str))
+
+            end_time = None
+            if end_hour_str and end_minute_str:
+                end_time = time(int(end_hour_str), int(end_minute_str))
+
+            # Schedule 객체 필드 업데이트
+            schedule.title = title
+            schedule.date = schedule_date
+            schedule.start_time = start_time
+            schedule.end_time = end_time
+            schedule.memo = memo
+            schedule.priority = priority
+
+            schedule.save()
+
+            return redirect('home')
+
+        except (ValueError, TypeError) as e:
+            return render(request, 'components/edit-todo-sheet.html', {
+                'schedule': schedule,
+                'error_message': f'날짜/시간 형식이 올바르지 않습니다: {e}'
+            })
+        except Exception as e:
+            return render(request, 'components/edit-todo-sheet.html', {
+                'schedule': schedule,
+                'error_message': f'일정 수정 중 오류가 발생했습니다: {e}'
+            })
+
+    else:
+        # GET 요청 시, 현재 일정 데이터를 폼에 미리 채워주기
+        initial_data = {
+            'pk': schedule.pk,
+            'title': schedule.title,
+            'memo': schedule.memo,
+            'year': schedule.date.year,
+            'month': schedule.date.month,
+            'day': schedule.date.day,
+            'start_hour': schedule.start_time.hour if schedule.start_time else '',
+            'start_minute': schedule.start_time.minute if schedule.start_time else '',
+            'end_hour': schedule.end_time.hour if schedule.end_time else '',
+            'end_minute': schedule.end_time.minute if schedule.end_time else '',
+            'priority': schedule.priority,
+            'is_checked': schedule.is_checked,
+        }
+        return render(request, 'components/edit-todo-sheet.html', {'schedule': schedule, 'initial_data': initial_data})
