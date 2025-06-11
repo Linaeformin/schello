@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const form = document.getElementById("todoForm");
     if (form) {
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const titleInput = document.getElementById("todo");
         const title = titleInput.value.trim();
@@ -41,41 +41,56 @@ window.addEventListener('DOMContentLoaded', () => {
           }
         });
 
-        const memo = document.getElementById("memo").value;
-        const year = document.getElementById("year").value;
-        const month = document.getElementById("month").value;
-        const day = document.getElementById("day").value;
-        const date = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-        const sh = document.getElementById("start-hour").value;
-        const sm = document.getElementById("start-minute").value;
-        const eh = document.getElementById("end-hour").value;
-        const em = document.getElementById("end-minute").value;
-        const timeChecked = document.getElementById("time").checked;
-        const time = timeChecked && sh && eh ? `${sh}:${sm}-${eh}:${em}` : "하루종일";
-        const priorityChecked = document.getElementById("priority").checked;
-        const pr = document.querySelector("input[name='priority-radio']:checked");
-        const priority = priorityChecked && pr ? parseInt(pr.value) : null;
-        const is_checked = document.getElementById("is-checked").checked; // 체크 필드 추가
+        const formData = new FormData(form);
 
-        if (window.editingScheduleId !== null) {
-          const target = dummySchedules.find(s => s.id === window.editingScheduleId);
-          if (target) {
-            target.title = title || target.title;
-            target.memo = memo || target.memo;
-            target.date = date;
-            target.time = time;
-            target.priority = priority;
-            target.is_checked = is_checked; // 체크 필드 추가
-          }
-        } else {
-          const newId = dummySchedules.length ? Math.max(...dummySchedules.map(s => s.id)) + 1 : 1;
-          dummySchedules.push({ id: newId, title, memo, date, time, priority, is_checked });
+        if (!document.getElementById("time").checked) {
+          formData.delete('start-hour');
+          formData.delete('start-minute');
+          formData.delete('end-hour');
+          formData.delete('end-minute');
         }
 
-        renderSchedules(date);
-        closeBottomSheet();
-        document.getElementById("todoForm").reset();
-        window.editingScheduleId = null;
+        if (!document.getElementById("priority").checked) {
+          formData.delete('priority-radio');
+        }
+
+        try {
+          const response = await fetch('/schedules/add/', {
+            method: 'POST',
+            body: formData, // FormData 객체를 body로 직접 전달
+          });
+
+          if (response.ok) { // HTTP 상태 코드가 200-299 범위인 경우 (성공)
+            const result = await response.json(); // 서버에서 보낸 JSON 응답 파싱
+            console.log("일정 저장 성공:", result);
+
+            // 현재 선택된 날짜를 가져와서 일정 목록을 다시 렌더링합니다.
+            // 이렇게 하면 새로 추가된 일정이 화면에 반영됩니다.
+            const selectedDateElement = document.querySelector(".day-box.selected");
+            const selectedDate = selectedDateElement ? selectedDateElement.dataset.date : null;
+            if (selectedDate) {
+                renderSchedules(selectedDate);
+            } else { // 선택된 날짜가 없는 경우 (예: 초기 로드 시)
+                // currentDate 변수를 사용하여 현재 날짜를 YYYY-MM-DD 형식으로 변환
+                const todayYear = currentDate.getFullYear();
+                const todayMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+                const todayDay = String(currentDate.getDate()).padStart(2, '0');
+                renderSchedules(`${todayYear}-${todayMonth}-${todayDay}`);
+            }
+
+            closeBottomSheet(); // 바텀 시트 닫기
+            document.getElementById("todoForm").reset(); // 폼 초기화
+            window.editingScheduleId = null; // 수정 모드 해제 (필요 없으면 제거)
+
+          } else { // 서버 응답이 실패 (4xx, 5xx)인 경우
+            const errorData = await response.json(); // 서버에서 보낸 에러 메시지 파싱
+            console.error("일정 저장 실패:", errorData);
+            alert(`일정 저장에 실패했습니다: ${errorData.error_message || response.statusText}`);
+          }
+        } catch (error) {
+          console.error("네트워크 오류 또는 요청 실패:", error);
+          alert("일정 저장 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.");
+        }
       });
     }
 

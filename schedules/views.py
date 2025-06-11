@@ -6,10 +6,9 @@ from django.views.decorators.http import require_POST, require_GET, require_http
 from schedules.forms import ScheduleForm
 # from accounts.models import Member
 from schedules.models import Schedule
-from datetime import datetime
+from datetime import datetime, date, time
 import json
 
-@login_required
 @require_http_methods(["GET"])
 def get_schedule_api(request):
     try:
@@ -68,3 +67,72 @@ def schedule_update_checked_status(request, pk):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
     return JsonResponse({'status': 'error', 'message': '허용되지 않는 HTTP 메서드입니다.'}, status=405)
+
+def add_schedule_view(request):
+    if request.method == 'POST':
+        title = request.POST.get('todo')
+        memo = request.POST.get('memo', '')
+
+        # 날짜 데이터 (년, 월, 일)
+        year = request.POST.get('year')
+        month = request.POST.get('month')
+        day = request.POST.get('day')
+
+        # 시간 데이터 (시작 시간, 종료 시간)
+        start_hour_str = request.POST.get('start-hour')
+        start_minute_str = request.POST.get('start-minute')
+        end_hour_str = request.POST.get('end-hour')
+        end_minute_str = request.POST.get('end-minute')
+
+        # 우선순위 데이터
+        priority_str = request.POST.get('priority-radio')
+        priority = int(priority_str) if priority_str else None
+
+        # 필수 필드 유효성 검사
+        if not all([title, year, month, day]):
+            return render(request, 'components/add-todo-sheet.html', {'error_message': '필수 필드를 모두 입력해주세요.'})
+
+        try:
+            # 날짜 필드 생성 (date 객체)
+            schedule_date = date(int(year), int(month), int(day))
+
+            # 시작 시간 필드 생성 (time 객체)
+            start_time = None
+            if start_hour_str and start_minute_str:
+                start_time = time(int(start_hour_str), int(start_minute_str))
+
+            # 종료 시간 필드 생성 (time 객체)
+            end_time = None
+            if end_hour_str and end_minute_str:
+                end_time = time(int(end_hour_str), int(end_minute_str))
+
+            # Schedule 객체 생성 및 저장
+            schedule = Schedule(
+                user=request.user if request.user.is_authenticated else None,
+                title=title,
+                date=schedule_date,
+                start=start_time,
+                end=end_time,
+                memo=memo,
+                priority=priority,
+                is_checked=False
+            )
+            schedule.save()
+
+            # 성공적으로 저장된 후 리다이렉션
+            return redirect('home')
+
+        except (ValueError, TypeError) as e:
+            return render(request, 'components/add-todo-sheet.html', {'error_message': f'날짜/시간 형식이 올바르지 않습니다: {e}'})
+        except Exception as e:
+            return render(request, 'components/add-todo-sheet.html', {'error_message': f'일정 저장 중 오류가 발생했습니다: {e}'})
+
+    else:
+        # GET 요청일 경우 (폼 페이지를 처음 로드할 때)
+        today = date.today()
+        initial_data = {
+            'year': today.year,
+            'month': today.month,
+            'day': today.day,
+        }
+        return render(request, 'components/add-todo-sheet.html', {'initial_data': initial_data})

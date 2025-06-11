@@ -10,7 +10,8 @@
     </div>
 
     <!-- form -->
-    <form class="todo-form" id="todoForm">
+    <form class="todo-form" id="todoForm" action="{% url 'schedules:add_schedule' %}" method="post">
+      {% csrf_token %}
       <!-- 일정 제목 & 메모 -->
       <div class="add-todo-box">
         <input type="text" id="todo" name="todo" placeholder="일정 제목" />
