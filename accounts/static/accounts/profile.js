@@ -7,7 +7,9 @@ const profileImage = document.getElementById('profileImage');
 const homeIcon = document.querySelector(".home-button");
 const profileIcon =document.querySelector(".profile-button");
 
-// 프로필사진 수정 버튼 누르면 파일 입력창 띄우기
+setupBottomSheetEvents();
+
+// 프로필 사진 수정 버튼 누르면 파일 입력창 띄우기
 editBtn?.addEventListener('click', () => {
   fileInput?.click();
 });
