@@ -7,7 +7,6 @@ import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/stat
 //--------------첫 실행 화면 띄우기----------------------
 
 
-
 //--------------------------------화면 띄워졌을때 nav-bar와 바텀 시트 등을 가져오기------------
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -59,13 +58,11 @@ window.addEventListener('DOMContentLoaded', () => {
             const result = await response.json(); // 서버에서 보낸 JSON 응답 파싱
             console.log("일정 저장 성공:", result);
 
-            // 현재 선택된 날짜를 가져와서 일정 목록을 다시 렌더링합니다.
-            // 이렇게 하면 새로 추가된 일정이 화면에 반영됩니다.
             const selectedDateElement = document.querySelector(".day-box.selected");
             const selectedDate = selectedDateElement ? selectedDateElement.dataset.date : null;
             if (selectedDate) {
                 renderSchedules(selectedDate);
-            } else { // 선택된 날짜가 없는 경우 (예: 초기 로드 시)
+            } else { // 선택된 날짜가 없는 경우
                 // currentDate 변수를 사용하여 현재 날짜를 YYYY-MM-DD 형식으로 변환
                 const todayYear = currentDate.getFullYear();
                 const todayMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -75,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             closeBottomSheet(); // 바텀 시트 닫기
             document.getElementById("todoForm").reset(); // 폼 초기화
-            window.editingScheduleId = null; // 수정 모드 해제 (필요 없으면 제거)
+            window.editingScheduleId = null;
 
           } else { // 서버 응답이 실패 (4xx, 5xx)인 경우
             const errorData = await response.json(); // 서버에서 보낸 에러 메시지 파싱
@@ -99,32 +96,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     setupHorizontalDrag(document.querySelector(".week-calendar"));
     setupVerticalDrag(document.querySelector(".schedule-list"));
-  
+
 });
-
-
-//날짜 가져오기
-//let currentDate = new Date();
-//const checkedStatus = {};
-
-
-//더미데이터
-//:고유아이디, 날짜, 시간(null="하루종일"), 제목, 메모(null="메모없음"default됨), 우선순위(null=순위없음-일정 리스트 나열순 고려x) => 리스트에 반영
-//const dummySchedules = [
-//  { id: 1, date: "2025-06-02", time: "09:00 - 12:00", title: "졸작 보고서", memo: "월요일 회의 예정", priority: 1 },
-//  { id: 2, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-//  { id: 3, date: "2025-06-03", time: "13:00 - 14:00", title: "빅데이터 과제", memo: "주제 기획", priority: 2 },
-//  { id: 4, date: "2025-06-04", time: "하루종일", title: "교양 과제", memo: "기한 회의해보기", priority: null },
-//  { id: 5, date: "2025-06-02", time: "13:00 - 15:00", title: "졸작 보고서", memo: "월요일 회의 예정", priority: 2 },
-//  { id: 6, date: "2025-06-02", time: "07:00 - 08:00", title: "와와아아작", memo: "메모 없음", priority: null },
-//  { id: 7, date: "2025-06-03", time: "13:00 - 14:00", title: "빅데이터 과제", memo: "주제 기획", priority: 2 },
-//  { id: 8, date: "2025-06-04", time: "하루종일", title: "교양 과제", memo: "기한 회의해보기", priority: null },
-//  { id: 9, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-//  { id: 10, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-//  { id: 11, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-//  { id: 12, date: "2025-06-02", time: "하루종일", title: "졸작", memo: "메모 없음", priority: null },
-
-//];
 
 //일정 우선순위에 따른 아이콘(1순위,2순위, 3순위 아이콘)
 const priorityIcons = {
@@ -181,6 +154,7 @@ function renderSchedules(selectedDate) {
   scheduleList.innerHTML = "";
 
   let schedules = dummySchedules.filter(item => item.date === selectedDate);
+
   schedules.forEach(s => {
     s.memo = s.memo || "메모 없음";
 
@@ -525,16 +499,13 @@ document.addEventListener("click", (e) => {
   }
 });
 
-
-
-
-
 //일정 수정 바텀시트를 위한 일정 추가 재사용
 function attachEditBtnHandler() {
-  document.addEventListener("click", (e) => {
+  document.addEventListener("click", async (e) => {
     if (e.target.classList.contains("edit-btn")) {
       const card = e.target.closest(".schedule-card");
       const id = parseInt(card.querySelector(".check-task").dataset.id);
+
       const schedule = dummySchedules.find((s) => s.id === id);
       if (schedule) {
         openBottomSheet('edit', schedule);
@@ -542,4 +513,3 @@ function attachEditBtnHandler() {
     }
   });
 }
-

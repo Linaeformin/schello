@@ -90,7 +90,7 @@ def add_schedule_view(request):
 
         # 필수 필드 유효성 검사
         if not all([title, year, month, day]):
-            return render(request, 'components/add-todo-sheet.html', {'error_message': '필수 필드를 모두 입력해주세요.'})
+            return JsonResponse({'error_message': '필수 필드를 모두 입력해주세요.'}, status=400)
 
         try:
             # 날짜 필드 생성 (date 객체)
@@ -119,8 +119,12 @@ def add_schedule_view(request):
             )
             schedule.save()
 
-            # 성공적으로 저장된 후 리다이렉션
-            return redirect('home')
+            return JsonResponse({
+                'status': 'success',
+                'id': schedule.id,
+                'title': schedule.title,
+                'message': '일정이 성공적으로 추가되었습니다.'
+            }, status=201)  # 201 Created
 
         except (ValueError, TypeError) as e:
             return render(request, 'components/add-todo-sheet.html', {'error_message': f'날짜/시간 형식이 올바르지 않습니다: {e}'})
@@ -137,7 +141,7 @@ def add_schedule_view(request):
         }
         return render(request, 'components/add-todo-sheet.html', {'initial_data': initial_data})
 
-
+@require_http_methods(["GET", "POST"])
 def edit_schedule_view(request, pk):
     schedule = get_object_or_404(Schedule, pk=pk, user=request.user)
 
@@ -158,10 +162,7 @@ def edit_schedule_view(request, pk):
         priority = int(priority_str) if priority_str else None
 
         if not all([title, year, month, day]):
-            return render(request, 'components/edit-todo-sheet.html', {
-                'schedule': schedule, # 현재 일정 데이터를 다시 전달
-                'error_message': '필수 필드를 모두 입력해주세요.'
-            })
+            return JsonResponse({'error_message': '필수 필드를 모두 입력해주세요.'}, status=400)
 
         try:
             schedule_date = date(int(year), int(month), int(day))
@@ -184,7 +185,12 @@ def edit_schedule_view(request, pk):
 
             schedule.save()
 
-            return redirect('home')
+            return JsonResponse({
+                'status': 'success',
+                'id': schedule.id,
+                'title': schedule.title,
+                'message': '일정이 성공적으로 수정되었습니다.'
+            })
 
         except (ValueError, TypeError) as e:
             return render(request, 'components/edit-todo-sheet.html', {
