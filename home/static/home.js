@@ -10,124 +10,124 @@ import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/stat
 //--------------------------------화면 띄워졌을때 nav-bar와 바텀 시트 등을 가져오기------------
 window.addEventListener('DOMContentLoaded', () => {
 
-    // 2) nav-bar와 add-todo-sheet는 이미 home.html에서 {% include %}로 포함됐다고 가정
+  // 2) nav-bar와 add-todo-sheet는 이미 home.html에서 {% include %}로 포함됐다고 가정
 
-    // 3) 하위 기능 연결
-    setupBottomSheetEvents();
-    attachEditBtnHandler();
+  // 3) 하위 기능 연결
+  setupBottomSheetEvents();
+  attachEditBtnHandler();
 
-    const form = document.getElementById("todoForm");
-    if (form) {
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const titleInput = document.getElementById("todo");
-        const title = titleInput.value.trim();
-        if (!title) {
-          titleInput.value = "";
-          titleInput.placeholder = "제목은 필수 입력입니다";
-          titleInput.classList.add("required-placeholder");
-          return;
-        }
-        titleInput.addEventListener("input", () => {
-          if (titleInput.classList.contains("required-placeholder")) {
-            titleInput.classList.remove("required-placeholder");
-            titleInput.placeholder = "일정 제목";
-          }
-        });
-
-        const formData = new FormData(form);
-
-        if (!document.getElementById("time").checked) {
-          formData.delete('start-hour');
-          formData.delete('start-minute');
-          formData.delete('end-hour');
-          formData.delete('end-minute');
-        }
-
-        if (!document.getElementById("priority").checked) {
-          formData.delete('priority-radio');
-        }
-
-        try {
-          const response = await fetch('/schedules/add/', {
-            method: 'POST',
-            body: formData, // FormData 객체를 body로 직접 전달
-          });
-
-          if (response.ok) { // HTTP 상태 코드가 200-299 범위인 경우 (성공)
-            const result = await response.json(); // 서버에서 보낸 JSON 응답 파싱
-            console.log("일정 저장 성공:", result);
-
-            if (window.editingScheduleId) { // 수정모드 상태면
-              const idToDelete = window.editingScheduleId; // 수정 중이던 일정의 ID를 삭제할 ID로 사용
-
-              try {
-                const response = await fetch(`/home/${idToDelete}/delete/`, {
-                  method: 'POST', // Django에서는 POST로 삭제를 처리하는 경우가 많음
-                  headers: {
-                    'X-CSRFToken': getCookie('csrftoken') // CSRF 토큰 전송
-                  }
-                });
-
-                if (response.ok) {
-                  console.log(`일정 수정 성공`);
-                  closeBottomSheet(); // 바텀 시트 닫기
-                  document.getElementById("todoForm").reset(); // 폼 초기화
-                  window.editingScheduleId = null; // 수정 모드 해제
-                  window.location.reload();
-                } else {
-                  const errorData = await response.json();
-                  console.error("일정 삭제 실패:", errorData);
-                  alert(`일정 삭제에 실패했습니다: ${errorData.error_message || response.statusText}`);
-                }
-              } catch (error) {
-                console.error("네트워크 오류 또는 삭제 요청 실패:", error);
-                window.location.reload();
-              }
-              // 삭제 로직 실행 후 종료
-              return;
-            } else {
-              window.location.reload();
-            }
-
-            const selectedDateElement = document.querySelector(".day-box.selected");
-            const selectedDate = selectedDateElement ? selectedDateElement.dataset.date : null;
-            if (selectedDate) {
-                renderSchedules(selectedDate);
-            } else { // 선택된 날짜가 없는 경우
-                // currentDate 변수를 사용하여 현재 날짜를 YYYY-MM-DD 형식으로 변환
-                const todayYear = currentDate.getFullYear();
-                const todayMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
-                const todayDay = String(currentDate.getDate()).padStart(2, '0');
-                renderSchedules(`${todayYear}-${todayMonth}-${todayDay}`);
-            }
-
-            closeBottomSheet(); // 바텀 시트 닫기
-            document.getElementById("todoForm").reset(); // 폼 초기화
-            window.editingScheduleId = null;
-
-          } else { // 서버 응답이 실패 (4xx, 5xx)인 경우
-            const errorData = await response.json(); // 서버에서 보낸 에러 메시지 파싱
-            console.error("일정 저장 실패:", errorData);
-            alert(`일정 저장에 실패했습니다: ${errorData.error_message || response.statusText}`);
-          }
-        } catch (error) {
-          console.error("네트워크 오류 또는 요청 실패:", error);
-          alert("일정 저장 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.");
+  const form = document.getElementById("todoForm");
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const titleInput = document.getElementById("todo");
+      const title = titleInput.value.trim();
+      if (!title) {
+        titleInput.value = "";
+        titleInput.placeholder = "제목은 필수 입력입니다";
+        titleInput.classList.add("required-placeholder");
+        return;
+      }
+      titleInput.addEventListener("input", () => {
+        if (titleInput.classList.contains("required-placeholder")) {
+          titleInput.classList.remove("required-placeholder");
+          titleInput.placeholder = "일정 제목";
         }
       });
-    }
 
-    // 4) 캘린더 렌더링 및 드래그 이벤트
-    renderCalendar(currentDate);
+      const formData = new FormData(form);
 
-    const todayBox = document.querySelector(".day-box.today");
-    if (todayBox) {
-      todayBox.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-    }
+      if (!document.getElementById("time").checked) {
+        formData.delete('start-hour');
+        formData.delete('start-minute');
+        formData.delete('end-hour');
+        formData.delete('end-minute');
+      }
 
-    setupHorizontalDrag(document.querySelector(".week-calendar"));
-    setupVerticalDrag(document.querySelector(".schedule-list"));
+      if (!document.getElementById("priority").checked) {
+        formData.delete('priority-radio');
+      }
+
+      try {
+        const response = await fetch('/schedules/add/', {
+          method: 'POST',
+          body: formData, // FormData 객체를 body로 직접 전달
+        });
+
+        if (response.ok) { // HTTP 상태 코드가 200-299 범위인 경우 (성공)
+          const result = await response.json(); // 서버에서 보낸 JSON 응답 파싱
+          console.log("일정 저장 성공:", result);
+
+          if (window.editingScheduleId) { // 수정모드 상태면
+            const idToDelete = window.editingScheduleId; // 수정 중이던 일정의 ID를 삭제할 ID로 사용
+
+            try {
+              const response = await fetch(`/home/${idToDelete}/delete/`, {
+                method: 'POST', // Django에서는 POST로 삭제를 처리하는 경우가 많음
+                headers: {
+                  'X-CSRFToken': getCookie('csrftoken') // CSRF 토큰 전송
+                }
+              });
+
+              if (response.ok) {
+                console.log(`일정 수정 성공`);
+                closeBottomSheet(); // 바텀 시트 닫기
+                document.getElementById("todoForm").reset(); // 폼 초기화
+                window.editingScheduleId = null; // 수정 모드 해제
+                window.location.reload();
+              } else {
+                const errorData = await response.json();
+                console.error("일정 삭제 실패:", errorData);
+                alert(`일정 삭제에 실패했습니다: ${errorData.error_message || response.statusText}`);
+              }
+            } catch (error) {
+              console.error("네트워크 오류 또는 삭제 요청 실패:", error);
+              window.location.reload();
+            }
+            // 삭제 로직 실행 후 종료
+            return;
+          } else {
+            window.location.reload();
+          }
+
+          const selectedDateElement = document.querySelector(".day-box.selected");
+          const selectedDate = selectedDateElement ? selectedDateElement.dataset.date : null;
+          if (selectedDate) {
+            renderSchedules(selectedDate);
+          } else { // 선택된 날짜가 없는 경우
+            // currentDate 변수를 사용하여 현재 날짜를 YYYY-MM-DD 형식으로 변환
+            const todayYear = currentDate.getFullYear();
+            const todayMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const todayDay = String(currentDate.getDate()).padStart(2, '0');
+            renderSchedules(`${todayYear}-${todayMonth}-${todayDay}`);
+          }
+
+          closeBottomSheet(); // 바텀 시트 닫기
+          document.getElementById("todoForm").reset(); // 폼 초기화
+          window.editingScheduleId = null;
+
+        } else { // 서버 응답이 실패 (4xx, 5xx)인 경우
+          const errorData = await response.json(); // 서버에서 보낸 에러 메시지 파싱
+          console.error("일정 저장 실패:", errorData);
+          alert(`일정 저장에 실패했습니다: ${errorData.error_message || response.statusText}`);
+        }
+      } catch (error) {
+        console.error("네트워크 오류 또는 요청 실패:", error);
+        alert("일정 저장 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.");
+      }
+    });
+  }
+
+  // 4) 캘린더 렌더링 및 드래그 이벤트
+  renderCalendar(currentDate);
+
+  const todayBox = document.querySelector(".day-box.today");
+  if (todayBox) {
+    todayBox.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }
+
+  setupHorizontalDrag(document.querySelector(".week-calendar"));
+  setupVerticalDrag(document.querySelector(".schedule-list"));
 
 });
 
@@ -203,40 +203,40 @@ function renderSchedules(selectedDate) {
     s.displayTime = displayTime;
   });
 
-schedules.sort((a, b) => {
-  const priorityA = a.priority === null ? Infinity : a.priority;
-  const priorityB = b.priority === null ? Infinity : b.priority;
+  schedules.sort((a, b) => {
+    const priorityA = a.priority === null ? Infinity : a.priority;
+    const priorityB = b.priority === null ? Infinity : b.priority;
 
-  if (priorityA !== priorityB) {
-    return priorityA - priorityB;
-  }
+    if (priorityA !== priorityB) {
+      return priorityA - priorityB;
+    }
 
-  const isAllDayA = a.displayTime === '하루종일';
-  const isAllDayB = b.displayTime === '하루종일';
+    const isAllDayA = a.displayTime === '하루종일';
+    const isAllDayB = b.displayTime === '하루종일';
 
-  if (isAllDayA && !isAllDayB) {
-    return 1;
-  }
-  if (!isAllDayA && isAllDayB) {
-    return -1;
-  }
-  if (isAllDayA && isAllDayB) {
-    return 0;
-  }
+    if (isAllDayA && !isAllDayB) {
+      return 1;
+    }
+    if (!isAllDayA && isAllDayB) {
+      return -1;
+    }
+    if (isAllDayA && isAllDayB) {
+      return 0;
+    }
 
-  const timeA = a.displayTime.split(' ')[0];
-  const timeB = b.displayTime.split(' ')[0];
+    const timeA = a.displayTime.split(' ')[0];
+    const timeB = b.displayTime.split(' ')[0];
 
-  const hourA = parseInt(timeA.split(':')[0], 10);
-  const minuteA = parseInt(timeA.split(':')[1], 10);
-  const totalMinutesA = hourA * 60 + minuteA;
+    const hourA = parseInt(timeA.split(':')[0], 10);
+    const minuteA = parseInt(timeA.split(':')[1], 10);
+    const totalMinutesA = hourA * 60 + minuteA;
 
-  const hourB = parseInt(timeB.split(':')[0], 10);
-  const minuteB = parseInt(timeB.split(':')[1], 10);
-  const totalMinutesB = hourB * 60 + minuteB;
+    const hourB = parseInt(timeB.split(':')[0], 10);
+    const minuteB = parseInt(timeB.split(':')[1], 10);
+    const totalMinutesB = hourB * 60 + minuteB;
 
-  return totalMinutesA - totalMinutesB;
-});
+    return totalMinutesA - totalMinutesB;
+  });
 
   if (!schedules.length) {
     scheduleList.innerHTML = `<div class="no-schedule">추가된 일정이 없습니다.</div>`;
@@ -246,8 +246,8 @@ schedules.sort((a, b) => {
   schedules.forEach(item => {
     const card = document.createElement("div");
     const iconHtml = item.priority && priorityIcons[item.priority]
-        ? `<img src="${priorityIcons[item.priority]}" class="priority-icon" alt="우선순위 ${item.priority}">`
-        : "";
+      ? `<img src="${priorityIcons[item.priority]}" class="priority-icon" alt="우선순위 ${item.priority}">`
+      : "";
 
     card.className = "schedule-card";
     card.innerHTML = `
@@ -279,8 +279,8 @@ schedules.sort((a, b) => {
     title.style.textDecoration = item.is_checked ? "line-through" : "none";
   });
 
-    //const isChecked = checkedStatus[item.id] || false;
-    //checkbox.checked = isChecked;
+  //const isChecked = checkedStatus[item.id] || false;
+  //checkbox.checked = isChecked;
 
   // 이벤트 리스너를 개별 체크박스에 추가
   document.querySelectorAll(".schedule-checkbox").forEach(box => {
@@ -313,62 +313,62 @@ schedules.sort((a, b) => {
 }
 
 function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
     }
-    return cookieValue;
+  }
+  return cookieValue;
 }
 
 async function updateScheduleCheckedStatus(scheduleId, isChecked) {
-    try {
-        const response = await fetch(`/schedules/${scheduleId}/update_checked_status/`, {
-            method: 'POST', // POST 또는 PATCH 사용 권장
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken') // CSRF 토큰 전송
-            },
-            body: JSON.stringify({ is_checked: isChecked })
-        });
+  try {
+    const response = await fetch(`/schedules/${scheduleId}/update_checked_status/`, {
+      method: 'POST', // POST 또는 PATCH 사용 권장
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken') // CSRF 토큰 전송
+      },
+      body: JSON.stringify({ is_checked: isChecked })
+    });
 
-        if (!response.ok) {
-            // 에러 발생 시 UI를 원래 상태로 되돌리거나 사용자에게 알림
-            const errorData = await response.json();
-            console.error('백엔드 업데이트 실패:', errorData.message);
-            // UI를 원래 상태로 되돌리는 로직 (예: 해당 체크박스를 다시 원래 상태로)
-            const checkbox = document.querySelector(`.check-task[data-id="${scheduleId}"]`);
-            if (checkbox) {
-                checkbox.checked = !isChecked; // 원래 상태로 되돌림
-                const title = checkbox.closest(".schedule-card").querySelector(".schedule-title");
-                title.style.color = !isChecked ? "var(--gray-50)" : "var(--gray-80)";
-                title.style.textDecoration = !isChecked ? "line-through" : "none";
-            }
-            alert(`일정 상태 업데이트 실패: ${errorData.message}`);
-            return;
-        }
-
-        const data = await response.json();
-        console.log('백엔드 업데이트 성공:', data);
-
-    } catch (error) {
-        console.error('네트워크 또는 기타 오류:', error);
-        alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
-        // UI를 원래 상태로 되돌리는 로직
-        const checkbox = document.querySelector(`.check-task[data-id="${scheduleId}"]`);
-        if (checkbox) {
-            checkbox.checked = !isChecked;
-            const title = checkbox.closest(".schedule-card").querySelector(".schedule-title");
-            title.style.color = !isChecked ? "var(--gray-50)" : "var(--gray-80)";
-            title.style.textDecoration = !isChecked ? "line-through" : "none";
-        }
+    if (!response.ok) {
+      // 에러 발생 시 UI를 원래 상태로 되돌리거나 사용자에게 알림
+      const errorData = await response.json();
+      console.error('백엔드 업데이트 실패:', errorData.message);
+      // UI를 원래 상태로 되돌리는 로직 (예: 해당 체크박스를 다시 원래 상태로)
+      const checkbox = document.querySelector(`.check-task[data-id="${scheduleId}"]`);
+      if (checkbox) {
+        checkbox.checked = !isChecked; // 원래 상태로 되돌림
+        const title = checkbox.closest(".schedule-card").querySelector(".schedule-title");
+        title.style.color = !isChecked ? "var(--gray-50)" : "var(--gray-80)";
+        title.style.textDecoration = !isChecked ? "line-through" : "none";
+      }
+      alert(`일정 상태 업데이트 실패: ${errorData.message}`);
+      return;
     }
+
+    const data = await response.json();
+    console.log('백엔드 업데이트 성공:', data);
+
+  } catch (error) {
+    console.error('네트워크 또는 기타 오류:', error);
+    alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+    // UI를 원래 상태로 되돌리는 로직
+    const checkbox = document.querySelector(`.check-task[data-id="${scheduleId}"]`);
+    if (checkbox) {
+      checkbox.checked = !isChecked;
+      const title = checkbox.closest(".schedule-card").querySelector(".schedule-title");
+      title.style.color = !isChecked ? "var(--gray-50)" : "var(--gray-80)";
+      title.style.textDecoration = !isChecked ? "line-through" : "none";
+    }
+  }
 }
 
 
@@ -469,12 +469,15 @@ document.addEventListener("click", (e) => {
 });
 //삭제를 위한 모달창 함수
 function openConfirmModal(message, onConfirm) {
-  const modal = document.querySelector(".modal-overlay");
+  const overlay = document.querySelector(".modal-overlay");
+  const modal = document.querySelector(".modal");
   modal.querySelector("p").textContent = message;
+  overlay.classList.remove("hidden");
   modal.classList.remove("hidden");
   const cancelBtn = modal.querySelector(".cancel-btn");
   const confirmBtn = modal.querySelector(".confirm-delete-btn");
   const close = () => {
+    overlay.classList.add("hidden");
     modal.classList.add("hidden");
     cancelBtn.onclick = null;
     confirmBtn.onclick = null;

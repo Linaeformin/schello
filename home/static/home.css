@@ -351,17 +351,20 @@
 }
 
 .modal {
-    transform: translateY(-40px);
+    position: absolute;
+    top: 346px;
+    left: 84px;
     background: #fff;
     width: 207px;
     height: 120px;
-    padding: 20px;
+    padding: 20px 22px;
     border-radius: 12px;
+    z-index: 1000;
     text-align: center;
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.01), 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-.modal-overlay p {
+.modal p {
     color: var(--gray-80);
     text-align: center;
     align-self: stretch;
@@ -381,18 +384,19 @@
 
 .cancel-btn,
 .confirm-delete-btn {
-    width: 74px;
-    height: 34px;
-    padding: 6px 14px;
-    border: 1px solid #aaa;
-    border-radius: 6px;
-    background: white;
-    color: var(--gray-50);
-    font-feature-settings: 'liga' off, 'clig' off;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 14px;
+    width: 74px!important;
+    height: 34px!important;
+    padding: 6px 14px!important;
+    border: 1px solid var(--gray-50)!important;
+    border-radius: 10px!important;
+    background: white!important;
+    color: var(--gray-50)!important;
+    font-feature-settings: 'liga' off, 'clig' off!important;
+    font-size: 16px!important;
+    font-style: normal!important;
+    font-weight: 500!important;
+    line-height: 14px!important;
+    gap: 19px!important;
 }
 
 .confirm-delete-btn {
@@ -406,4 +410,3 @@
 .hidden {
     display: none;
 }
-
