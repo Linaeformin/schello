@@ -94,9 +94,23 @@ export function closeBottomSheet() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  //홈, 프로필 페이지마다 아이콘 색 조정
+  const bottomIcon1 = document.querySelector(".nav-icon1");
+  const bottomIcon2 = document.querySelector(".nav-icon2");
+
+  const path = window.location.pathname;
+
+  if (path.includes("/home")) {
+    if (bottomIcon2) bottomIcon2.src = "/static/images/profile-gray.png";
+  }
+  else if (path.includes("/profile")) {
+    if (bottomIcon1) bottomIcon1.src = "/static/images/home-gray.png";
+  }
+
   document.querySelectorAll(".nav-item").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const path = e.currentTarget.dataset.url;
+
       if (path) {
         window.location.href = path;
       }
@@ -104,8 +118,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
-
-
-
-
-
