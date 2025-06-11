@@ -58,6 +58,38 @@ window.addEventListener('DOMContentLoaded', () => {
             const result = await response.json(); // 서버에서 보낸 JSON 응답 파싱
             console.log("일정 저장 성공:", result);
 
+            if (window.editingScheduleId) { // 수정모드 상태면
+              const idToDelete = window.editingScheduleId; // 수정 중이던 일정의 ID를 삭제할 ID로 사용
+
+              try {
+                const response = await fetch(`/home/${idToDelete}/delete/`, {
+                  method: 'POST', // Django에서는 POST로 삭제를 처리하는 경우가 많음
+                  headers: {
+                    'X-CSRFToken': getCookie('csrftoken') // CSRF 토큰 전송
+                  }
+                });
+
+                if (response.ok) {
+                  console.log(`일정 수정 성공`);
+                  closeBottomSheet(); // 바텀 시트 닫기
+                  document.getElementById("todoForm").reset(); // 폼 초기화
+                  window.editingScheduleId = null; // 수정 모드 해제
+                  window.location.reload();
+                } else {
+                  const errorData = await response.json();
+                  console.error("일정 삭제 실패:", errorData);
+                  alert(`일정 삭제에 실패했습니다: ${errorData.error_message || response.statusText}`);
+                }
+              } catch (error) {
+                console.error("네트워크 오류 또는 삭제 요청 실패:", error);
+                window.location.reload();
+              }
+              // 삭제 로직 실행 후 종료
+              return;
+            } else {
+              window.location.reload();
+            }
+
             const selectedDateElement = document.querySelector(".day-box.selected");
             const selectedDate = selectedDateElement ? selectedDateElement.dataset.date : null;
             if (selectedDate) {
@@ -433,11 +465,6 @@ document.addEventListener("click", (e) => {
   if (e.target.classList.contains("delete-btn")) {
     const card = e.target.closest(".schedule-card");
     const id = parseInt(card.querySelector(".check-task").dataset.id);
-    openConfirmModal("일정을 삭제할까요?", () => {
-      const date = document.querySelector(".day-box.selected").dataset.date;
-      dummySchedules.splice(dummySchedules.findIndex((s) => s.id === id), 1);
-      renderSchedules(date);
-    });
   }
 });
 //삭제를 위한 모달창 함수
