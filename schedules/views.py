@@ -136,3 +136,4 @@ def add_schedule_view(request):
             'day': today.day,
         }
         return render(request, 'components/add-todo-sheet.html', {'initial_data': initial_data})
+
