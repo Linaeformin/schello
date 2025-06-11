@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{% static 'main.css' %}" />
   <link rel="stylesheet" href="{% static 'navbar.css' %}" />
   <link rel="stylesheet" href="{% static 'schedules/todo.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 </head>
 <body>
@@ -58,6 +59,7 @@
 
         {% include "nav-bar.html" %}
         {% include "schedules/add-todo-sheet.html" %}
+
       </div>
     </div>
   </div>
@@ -68,5 +70,8 @@
     const imgUrl = "{{ img_url }}";
   </script>
   <script type="module" src="{% static 'accounts/profile.js' %}"></script>
+  <script type="module" src="{% static 'home.js' %}"></script>
+
+
 </body>
 </html>

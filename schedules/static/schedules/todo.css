@@ -1,37 +1,11 @@
-/* 카드 영역 */
-* .root {
-    width: 359px;
-    height: 608px;
-    box-sizing: border-box;
-    overflow: auto;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    padding: 24px 20px;
-    display: flex;
-    gap: 120px;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0px -4px 5px 0px #00000026;
-    ;
-    position: static;
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE 10+ */
-}
-
-.root::-webkit-scrollbar {
-    display: none;
-    /* Chrome, Safari, Opera */
-}
-
 .add-todo-content {
     width: 319px;
-    height: 400px;
+    height: 500px;
     display: flex;
     gap: 32px;
     flex-direction: column;
     align-items: center;
+
 }
 
 /* 헤더 */
@@ -80,7 +54,6 @@
     flex-direction: column;
     gap: 32px;
     width: 319px;
-    height: 352px;
 }
 
 /* text input box */
@@ -101,7 +74,7 @@
 .add-todo-box input[type="text"] {
     border: none;
     font-size: 12px;
-    font-weight: 400px;
+    font-weight: 400;
     color: #292C33;
     outline: none;
 }
@@ -124,7 +97,7 @@
 /* 날짜, 시간 박스 */
 .add-todo-box2 {
     width: 319px;
-    height: 236px;
+    height: auto;
     display: flex;
     border-radius: 10px;
     border: 1px solid #E6EAF2;
@@ -188,17 +161,18 @@
 
 #year{
     width: 44px;
-    height: 14px;
+    height: auto;
 }
 
 .month-box {
     display: flex;
     width: 33px;
-    height: 14px;
+    height:14px;
+    align-items: center;
 }
 
 #month{
-    width: 20px;
+    width: 26px;
     height: auto;
 }
 
@@ -219,7 +193,7 @@
     border-bottom: 1px solid #E6EAF2;
     font-size: 16px;
     font-weight: 600;
-    line-height: 14px;
+    line-height: normal;
     margin-left: 0px;
     text-align: end;
 }
@@ -317,7 +291,7 @@
 
 /* 아코디언 콘텐츠 (열림 상태) */
 .tgl:checked~.accordion-content {
-    max-height: 95px;
+    max-height: 114px;
     padding: 16px 5vw;
     display: flex;
     flex-direction: column;
@@ -394,13 +368,13 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    right: 1px;
+    right: 12px;
 }
 
 .priority-wapper {
     box-sizing: border-box;
     width: 319px;
-    height: 134px;
+    height: 104px;
     position: relative;
 }
 
@@ -453,7 +427,7 @@
 .add-todo-sheet {
     margin-top: 500px;
     width: 359px;
-    height: 740px;
+    height: 100%;
     border-radius: 40px;
     margin: 0 auto;
     display: flex;
@@ -461,15 +435,20 @@
     padding: 24px 20px 316px 20px;
     background-color: var(--background-color);
     position: absolute;
-    max-height: 90%;
+    max-height: 100%;
     background: white;
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
     transform: translateY(100%);
     transition: transform 0.3s ease-in-out;
-    z-index: 999;
+    z-index: 9999;
     margin: 0 auto;
-
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.add-todo-sheet::-webkit-scrollbar {
+    display: none;
 }
 
 .add-todo-sheet.active {
