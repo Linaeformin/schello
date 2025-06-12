@@ -92,9 +92,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
           const selectedDateElement = document.querySelector(".day-box.selected");
           const selectedDate = selectedDateElement ? selectedDateElement.dataset.date : null;
-          if (selectedDate) {
-            renderSchedules(selectedDate);
-          } else { // 선택된 날짜가 없는 경우
+            if (selectedDate) {
+              renderSchedules(selectedDate);
+            } else if (document.querySelector(".week-calendar")) {
+              renderCalendar(currentDate);
+            } else { // 선택된 날짜가 없는 경우
             // currentDate 변수를 사용하여 현재 날짜를 YYYY-MM-DD 형식으로 변환
             const todayYear = currentDate.getFullYear();
             const todayMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -126,8 +128,15 @@ window.addEventListener('DOMContentLoaded', () => {
     todayBox.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }
 
-  setupHorizontalDrag(document.querySelector(".week-calendar"));
-  setupVerticalDrag(document.querySelector(".schedule-list"));
+    const weekCalendar = document.querySelector(".week-calendar");
+    if (weekCalendar) {
+      setupHorizontalDrag(weekCalendar);
+    }
+    const scheduleList = document.querySelector(".schedule-list");
+    if (scheduleList) {
+      setupVerticalDrag(scheduleList);
+    }
+
 
 });
 
@@ -141,6 +150,7 @@ const priorityIcons = {
 //캘린더-------------------
 function renderCalendar(baseDate) {
   const weekCalendar = document.querySelector(".week-calendar");
+  if (!weekCalendar) return; // 요소 없으면 종료
   weekCalendar.innerHTML = "";
   const year = baseDate.getFullYear();
   const month = baseDate.getMonth();
@@ -374,28 +384,39 @@ async function updateScheduleCheckedStatus(scheduleId, isChecked) {
 
 
 //캘린더 이전달과 다음달----------------------------
-document.getElementById("prev-month").addEventListener("click", () => {
-  currentDate.setMonth(currentDate.getMonth() - 1);
-  renderCalendar(currentDate);
-});
+const prevBtn = document.getElementById("prev-month");
+if (prevBtn) {
+  prevBtn.addEventListener("click", () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar(currentDate);
+  });
+}
 
+const nextBtn = document.getElementById("next-month")
+if(nextBtn){
 document.getElementById("next-month").addEventListener("click", () => {
   currentDate.setMonth(currentDate.getMonth() + 1);
   renderCalendar(currentDate);
 });
+}
+
 //----------------------------------------------------
 
 //스크롤(수직-일정리스트, 수평-주간뷰)-------------------
 document.addEventListener("DOMContentLoaded", () => {
   const weekCalendar = document.querySelector(".week-calendar");
   const scheduleList = document.querySelector(".schedule-list");
-  renderCalendar(currentDate);
-  setTimeout(() => {
-    const todayBox = document.querySelector(".day-box.today");
-    if (todayBox) todayBox.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-  }, 50);
-  setupHorizontalDrag(weekCalendar);
-  setupVerticalDrag(scheduleList);
+
+  if (weekCalendar && scheduleList) {
+    renderCalendar(currentDate);
+    setupHorizontalDrag(weekCalendar);
+    setupVerticalDrag(scheduleList);
+
+    setTimeout(() => {
+      const todayBox = document.querySelector(".day-box.today");
+      if (todayBox) todayBox.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }, 50);
+  }
 });
 
 function setupHorizontalDrag(container) {
