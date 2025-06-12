@@ -48,8 +48,10 @@ export function openBottomSheet(mode = 'add', schedule = null) {
 
     if (schedule.time && schedule.time.includes("-")) {
       const [start, end] = schedule.time.split("-");
-      const [sh, sm] = start.split(":");
-      const [eh, em] = end.split(":");
+//      const [sh, sm] = start.split(":");
+//      const [eh, em] = end.split(":");
+      const [sh, sm] = start.trim().slice(0, 5).split(":");
+      const [eh, em] = end.trim().slice(0, 5).split(":");
       document.getElementById("time").checked = true;
       document.getElementById("start-hour").value = sh;
       document.getElementById("start-minute").value = sm;
