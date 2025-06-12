@@ -9,6 +9,7 @@
 p {
   font-family: "Inter", sans-serif;
 }
+
 .profile-container {
     width: 375px;
     height: 100%;
@@ -133,7 +134,7 @@ header{
     display: none; 
     justify-content: center;
     align-items: center;
-    z-index: 1000; 
+    z-index: 9999;
 }
 
 .modal-box {

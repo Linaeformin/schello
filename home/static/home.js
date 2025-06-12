@@ -124,8 +124,13 @@ window.addEventListener('DOMContentLoaded', () => {
           alert(`일정 저장에 실패했습니다: ${errorData.error_message || response.statusText}`);
         }
       } catch (error) {
-        console.error("네트워크 오류 또는 요청 실패:", error);
-        alert("일정 저장 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.");
+        // console.error("네트워크 오류 또는 요청 실패:", error);
+        // alert("일정 저장 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.");
+          console.log("에러 typeof:", typeof error);
+  console.log("에러 instanceof Error:", error instanceof Error);
+  console.log("에러 자체:", error);
+  console.log("에러 메시지:", error?.message);
+  console.error("네트워크 오류 또는 요청 실패:", error);
       }
     });
   }
