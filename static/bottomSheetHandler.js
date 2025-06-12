@@ -38,7 +38,9 @@ export function openBottomSheet(mode = 'add', schedule = null) {
   if (mode === 'edit' && schedule) {
     // 수정할 일정 데이터로 값 채우기
     document.getElementById("todo").value = schedule.title;
-    document.getElementById("memo").value = schedule.memo || "";
+    // document.getElementById("memo").value = schedule.memo || "";
+    const memoValue = (!schedule.memo || schedule.memo.trim() === "" || schedule.memo === "메모 없음") ? "" : schedule.memo;
+    document.getElementById("memo").value = memoValue;
     const [year, month, day] = schedule.date.split("-");
     document.getElementById("year").value = year;
     document.getElementById("month").value = parseInt(month);
@@ -46,8 +48,10 @@ export function openBottomSheet(mode = 'add', schedule = null) {
 
     if (schedule.time && schedule.time.includes("-")) {
       const [start, end] = schedule.time.split("-");
-      const [sh, sm] = start.split(":");
-      const [eh, em] = end.split(":");
+//      const [sh, sm] = start.split(":");
+//      const [eh, em] = end.split(":");
+      const [sh, sm] = start.trim().slice(0, 5).split(":");
+      const [eh, em] = end.trim().slice(0, 5).split(":");
       document.getElementById("time").checked = true;
       document.getElementById("start-hour").value = sh;
       document.getElementById("start-minute").value = sm;

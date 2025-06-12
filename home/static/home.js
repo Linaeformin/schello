@@ -188,7 +188,8 @@ function renderSchedules(selectedDate) {
   let schedules = dummySchedules.filter(item => item.date === selectedDate);
 
   schedules.forEach(s => {
-    s.memo = s.memo || "메모 없음";
+    // s.memo = s.memo || "메모 없음";
+    s.displayMemo = s.memo && s.memo.trim() !== "" ? s.memo : "메모 없음";  // 렌더링용만 따로
 
     let displayTime = '';
     if (s.start && s.end) {
@@ -261,7 +262,7 @@ function renderSchedules(selectedDate) {
       <div class="schedule-info">
         <div class="schedule-time">${item.time}</div>
         <div class="schedule-title">${item.title}</div>
-        <div class="schedule-memo">${item.memo}</div>
+        <div class="schedule-memo">${item.displayMemo}</div>
       </div>
       <button class="more-btn">∙∙∙</button>
       <div class="toolbar hidden">
