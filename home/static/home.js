@@ -3,6 +3,8 @@ let currentDate = new Date();
 const checkedStatus = {}; //전역 상태저장
 
 import { setupBottomSheetEvents, openBottomSheet, closeBottomSheet } from "/static/bottomSheetHandler.js";
+// home.js 상단 import 아래에 추가
+window.openBottomSheet = openBottomSheet;
 
 //--------------첫 실행 화면 띄우기----------------------
 
@@ -15,6 +17,14 @@ window.addEventListener('DOMContentLoaded', () => {
   // 3) 하위 기능 연결
   setupBottomSheetEvents();
   attachEditBtnHandler();
+
+    const urlParams = new URLSearchParams(window.location.search);
+  const shouldOpen = urlParams.get("openBottomSheet");
+
+  if (shouldOpen === "true") {
+    openBottomSheet("add");
+    window.history.replaceState({}, document.title, "/home");
+  }
 
   const form = document.getElementById("todoForm");
   if (form) {
@@ -566,3 +576,10 @@ function attachEditBtnHandler() {
     }
   });
 }
+
+// home.js 안에 추가
+const addBtn = document.getElementById("addScheduleBtn");
+
+addBtn?.addEventListener("click", () => {
+  openBottomSheet("add");
+});

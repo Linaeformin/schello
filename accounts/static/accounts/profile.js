@@ -53,5 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// profile.js 안에 추가
+const addBtn = document.getElementById("addScheduleBtn");
+
+addBtn?.addEventListener("click", () => {
+  window.location.href = "/home?openBottomSheet=true";
+});
+
+
 
 
