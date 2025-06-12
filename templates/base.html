@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
 {% load static %}
-  <head>
-    <title>홈</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}" />
-  </head>
+<head>
+  <title>홈</title>
+  <link rel="stylesheet" href="{% static 'main.css' %}" />
+  <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+</head>
   <body>
-    <h1>환영합니다, {{ user.username }}!</h1>
-
-    <h2>추가 정보 (카카오에서 받은 데이터)</h2>
-    <pre>
-        {{ extra_data|safe }}
-    </pre>
   <script src="{% static 'bottomSheetHandler.js' %}" defer></script>
   </body>
   <div id="root">
