@@ -282,15 +282,18 @@
 }
 
 .more-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: var(--gray-50);
-    transform: translate(3px, -9px);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--gray-50);
+  transform: translate(3px, -9px);
+
+  /* 시스템 간 간격 통일용 */
+  font-family: 'Noto Sans KR', 'Arial', sans-serif;
 }
 
 /*하위 바---------------*/
